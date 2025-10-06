@@ -6,12 +6,12 @@ struct ContentView: View {
 			VStack {
 				Text("Tasks")
 			}.tabItem {
-				Label("Tasks", systemImage: "star")
+				Label("Tasks", systemImage: "checklist")
 			}
 			VStack {
-				Text("Projects")
+				ProjectsView()
 			}.tabItem {
-				Label("Projects", systemImage: "heart")
+				Label("Projects", systemImage: "calendar.badge.clock")
 			}
 			VStack  {
 				Text("Settings")
