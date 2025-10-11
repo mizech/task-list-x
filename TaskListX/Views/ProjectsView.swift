@@ -9,7 +9,7 @@ struct ProjectsView: View {
 	@State private var title = ""
 	@State private var description = ""
 	
-    var body: some View {
+	var body: some View {
 		NavigationStack {
 			List {
 				ForEach(projects) {  project in
@@ -26,47 +26,65 @@ struct ProjectsView: View {
 					}
 				}
 			}
-				.toolbar {
+			.toolbar {
+				ToolbarItem(placement: .topBarTrailing) {
+					Button {
+						isCreateSheetShown.toggle()
+					} label: {
+						Label("Add", systemImage: "plus")
+					}
+					
+				}
+			}
+			.navigationTitle("Projects")
+		}.sheet(isPresented: $isCreateSheetShown) {
+			NavigationStack {
+				Form {
+					Section("Project data") {
+						TextField("Title", text: $title)
+						TextField("Description", text: $description)
+					}
+					Section() {
+						Button {
+							context.insert(
+								Project(
+									title: title,
+									desc: description
+								)
+							)
+							
+							do {
+								print("ModelContext save, after insert failed.")
+								try context.save()
+							} catch {
+								print(error)
+							}
+							isCreateSheetShown.toggle()
+						} label: {
+							Text("Submit")
+								.frame(maxWidth: .infinity)
+								.padding(.vertical, 10)
+								.foregroundStyle(.white)
+								.background(.blue)
+								.fontWeight(.bold)
+								.clipShape(RoundedRectangle(cornerRadius: 12))
+						}
+					}
+				}.toolbar {
 					ToolbarItem(placement: .topBarTrailing) {
 						Button {
 							isCreateSheetShown.toggle()
 						} label: {
-							Label("Add", systemImage: "plus")
+							Label("Close", systemImage: "star")
 						}
-
 					}
-				}
-				.navigationTitle("Projects")
-		}.sheet(isPresented: $isCreateSheetShown) {
-			Form {
-				Section("Project data") {
-					TextField("Title", text: $title)
-					TextField("Description", text: $description)
-				}
-				Section() {
-					Button("Submit") {
-						context.insert(
-							Project(
-								title: title,
-								desc: description
-							)
-						)
-						
-						do {
-							print("ModelContext save, after insert failed.")
-							try context.save()
-						} catch {
-							print(error)
-						}
-						isCreateSheetShown.toggle()
-					}
-					.buttonStyle(.borderedProminent)
 				}
 			}
 		}
-    }
+	}
 }
 
 #Preview {
-    ProjectsView()
+	ProjectsView()
 }
+
