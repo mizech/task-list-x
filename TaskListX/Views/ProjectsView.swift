@@ -12,8 +12,12 @@ struct ProjectsView: View {
 	var body: some View {
 		NavigationStack {
 			List {
-				ForEach(projects) {  project in
-					Text(project.title)
+				ForEach(projects) { project in
+					NavigationLink {
+						ProjectDetailsView(project: project)
+					} label: {
+						Text(project.title)
+					}
 				}.onDelete { indexSet in
 					for index in indexSet {
 						context.delete(projects[index])
@@ -39,45 +43,21 @@ struct ProjectsView: View {
 			.navigationTitle("Projects")
 		}.sheet(isPresented: $isCreateSheetShown) {
 			NavigationStack {
-				Form {
-					Section("Project data") {
-						TextField("Title", text: $title)
-						TextField("Description", text: $description)
+				ProjectFormView() { title, desc in
+					context.insert(
+						Project(
+							title: title,
+							desc: desc
+						)
+					)
+					
+					do {
+						try context.save()
+					} catch {
+						print("context.save() -> Failed")
+						print(error)
 					}
-					Section() {
-						Button {
-							context.insert(
-								Project(
-									title: title,
-									desc: description
-								)
-							)
-							
-							do {
-								print("ModelContext save, after insert failed.")
-								try context.save()
-							} catch {
-								print(error)
-							}
-							isCreateSheetShown.toggle()
-						} label: {
-							Text("Submit")
-								.frame(maxWidth: .infinity)
-								.padding(.vertical, 10)
-								.foregroundStyle(.white)
-								.background(.blue)
-								.fontWeight(.bold)
-								.clipShape(RoundedRectangle(cornerRadius: 12))
-						}
-					}
-				}.toolbar {
-					ToolbarItem(placement: .topBarTrailing) {
-						Button {
-							isCreateSheetShown.toggle()
-						} label: {
-							Label("Close", systemImage: "star")
-						}
-					}
+					isCreateSheetShown.toggle()
 				}
 			}
 		}
