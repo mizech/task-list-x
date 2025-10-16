@@ -4,7 +4,7 @@ struct ContentView: View {
     var body: some View {
 		TabView {
 			VStack {
-				Text("Tasks")
+				TasksView()
 			}.tabItem {
 				Label("Tasks", systemImage: "checklist")
 			}
