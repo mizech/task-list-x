@@ -42,23 +42,21 @@ struct ProjectsView: View {
 			}
 			.navigationTitle("Projects")
 		}.sheet(isPresented: $isCreateSheetShown) {
-			NavigationStack {
-				ProjectFormView() { title, desc in
-					context.insert(
-						Project(
-							title: title,
-							desc: desc
-						)
+			ProjectFormView() { title, desc in
+				context.insert(
+					Project(
+						title: title,
+						desc: desc
 					)
-					
-					do {
-						try context.save()
-					} catch {
-						print("context.save() -> Failed")
-						print(error)
-					}
-					isCreateSheetShown.toggle()
+				)
+				
+				do {
+					try context.save()
+				} catch {
+					print("context.save() -> Failed")
+					print(error)
 				}
+				isCreateSheetShown.toggle()
 			}
 		}
 	}

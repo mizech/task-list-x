@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ProjectFormView: View {
+	@Environment(\.dismiss) private var dismiss
 	var action: (String, String) -> Void
 	
 	@State var title: String = ""
@@ -8,7 +9,7 @@ struct ProjectFormView: View {
 	
 	var project: Project? = nil
 	
-    var body: some View {
+	var body: some View {
 		NavigationStack {
 			Form {
 				Section("Project data") {
@@ -30,14 +31,24 @@ struct ProjectFormView: View {
 							.clipShape(RoundedRectangle(cornerRadius: 12))
 					}
 				}
-			}
-		}.onAppear() {
+			}.toolbar(content: {
+				ToolbarItem(placement: .topBarTrailing) {
+					Button {
+						dismiss()
+					} label: {
+						Label("Close", systemImage: "xmark.circle.fill")
+					}
+					
+				}
+			})
+		}
+		.onAppear() {
 			if let project = self.project {
 				self.title = project.title
 				self.description = project.desc
 			}
 		}
-    }
+	}
 }
 
 extension ProjectFormView {
