@@ -1,23 +1,33 @@
 import SwiftUI
 
+enum Views {
+	case projects
+	case tasks
+	case archive
+}
+
 struct ContentView: View {
+	@State var selectedView = Views.tasks
+	
     var body: some View {
-		TabView {
-			VStack {
-				TasksView()
-			}.tabItem {
-				Label("Tasks", systemImage: "checklist")
-			}
+		TabView(selection: $selectedView) {
 			VStack {
 				ProjectsView()
 			}.tabItem {
-				Label("Projects", systemImage: "calendar.badge.clock")
-			}
-			VStack  {
-				Text("Settings")
+				Label("Projects", systemImage: "checklist")
+			}.tag(Views.projects)
+			
+			VStack {
+				TasksView()
 			}.tabItem {
-				Label("Settings", systemImage: "gear")
-			}
+				Label("Tasks", systemImage: "calendar.badge.clock")
+			}.tag(Views.tasks)
+			
+			VStack  {
+				Text("Archive")
+			}.tabItem {
+				Label("Archive", systemImage: "archivebox")
+			}.tag(Views.archive)
 		}
     }
 }

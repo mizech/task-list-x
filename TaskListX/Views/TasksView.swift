@@ -12,16 +12,32 @@ struct TasksView: View {
 			List {
 				ForEach(tasks) { task in
 					NavigationLink {
-						
+						TaskDetailsView(task: task)
 					} label: {
-						Text(task.title)
+						VStack(alignment: .leading) {
+							Text(task.title).fontWeight(.bold)
+							if task.project != nil {
+								Text(task.project?.title ?? "")
+							}
+						}
+					}
+				}
+				.onDelete { indexSet in
+					for index in indexSet {
+						context.delete(tasks[index])
+						
+						do {
+							try context.save()
+						} catch {
+							print(error)
+						}
 					}
 				}
 			}
 			.toolbar(content: {
 				ToolbarItem(placement: .topBarTrailing) {
 					Button {
-						
+						isCreateSheetShown.toggle()
 					} label: {
 						Label("Add", systemImage: "plus")
 					}
@@ -29,7 +45,7 @@ struct TasksView: View {
 			})
 			.navigationTitle("Tasks")
 		}.sheet(isPresented: $isCreateSheetShown) {
-			
+			TaskFormView()
 		}
     }
 }

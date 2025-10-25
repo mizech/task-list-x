@@ -1,18 +1,26 @@
-//
-//  TaskDetailsView.swift
-//  TaskListX
-//
-//  Created by Michael on 25.10.25.
-//
-
 import SwiftUI
 
 struct TaskDetailsView: View {
+	@Bindable var task: Task
+	
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+		NavigationStack {
+			ScrollView {
+				VStack {
+					Text(task.title)
+						.font(.title)
+				}
+			}
+		}
     }
 }
 
 #Preview {
-    TaskDetailsView()
+	TaskDetailsView(
+		task: Task(
+			title: "Title 01",
+			desc: "Desc 01",
+			project: nil
+		)
+	)
 }

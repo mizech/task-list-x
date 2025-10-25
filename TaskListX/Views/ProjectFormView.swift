@@ -38,7 +38,6 @@ struct ProjectFormView: View {
 					} label: {
 						Label("Close", systemImage: "xmark.circle.fill")
 					}
-					
 				}
 			})
 		}

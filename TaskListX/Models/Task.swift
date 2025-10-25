@@ -9,13 +9,13 @@ class Task {
 	let createdAt = Date.now
 	var modifiedAt = Date.now
 	
-	var project: Project
+	var project: Project? = nil
 	
 	init(
 		id: String = UUID().uuidString,
 		title: String,
 		desc: String,
-		project: Project
+		project: Project? 
 	) {
 		self.id = id
 		self.title = title
