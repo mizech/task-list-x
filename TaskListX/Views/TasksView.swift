@@ -15,7 +15,8 @@ struct TasksView: View {
 						TaskDetailsView(task: task)
 					} label: {
 						VStack(alignment: .leading) {
-							Text(task.title).fontWeight(.bold)
+							Text(task.title)
+								.fontWeight(.bold)
 							if task.project != nil {
 								Text(task.project?.title ?? "")
 							}

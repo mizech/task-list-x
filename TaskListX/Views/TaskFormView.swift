@@ -15,8 +15,12 @@ struct TaskFormView: View {
 		NavigationStack {
 			Form {
 				Section("Task description") {
-					TextField("Title", text: $title)
-						.textFieldStyle(.roundedBorder)
+					LabeledContent {
+						TextField("Title", text: $title)
+					} label: {
+						Text("Title")
+					}
+					
 					TextField("Description", text: $desc)
 						.textFieldStyle(.roundedBorder)
 				}
