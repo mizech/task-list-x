@@ -12,11 +12,19 @@ struct ProjectFormView: View {
 	var body: some View {
 		NavigationStack {
 			Form {
-				Section("Project data") {
-					TextField("Title", text: $title)
-						.textFieldStyle(.roundedBorder)
-					TextField("Description", text: $description)
-						.textFieldStyle(.roundedBorder)
+				Section("Project") {
+					LabeledContent {
+						TextField("Title", text: $title)
+							.textFieldStyle(.roundedBorder)
+					} label: {
+						Text("Title")
+					}
+					LabeledContent {
+						TextField("Description", text: $description)
+							.textFieldStyle(.roundedBorder)
+					} label: {
+						Text("Description")
+					}
 				}
 				
 				Section {
