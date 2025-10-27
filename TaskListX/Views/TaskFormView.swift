@@ -14,20 +14,21 @@ struct TaskFormView: View {
     var body: some View {
 		NavigationStack {
 			Form {
-				Section("Task description") {
+				Section("Task") {
 					LabeledContent {
 						TextField("Title", text: $title)
+							.textFieldStyle(.roundedBorder)
 					} label: {
 						Text("Title")
 					}
-					
-					TextField("Description", text: $desc)
-						.textFieldStyle(.roundedBorder)
-				}
-				
-				if projects.count > 0 {
-					Section("Project assignment") {
-						Picker("Project", selection: $project) {
+					LabeledContent {
+						TextField("Description", text: $desc)
+							.textFieldStyle(.roundedBorder)
+					} label: {
+						Text("Description")
+					}
+					if projects.count > 0 {
+						Picker("Allocation", selection: $project) {
 							ForEach(projects, id: \.self) { project in
 								Text(project.title).tag(project)
 							}
@@ -35,7 +36,7 @@ struct TaskFormView: View {
 						Text(project?.title ?? "")
 					}
 				}
-			
+				
 				Section {
 					Button {
 						let task = Task(
