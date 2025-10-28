@@ -7,13 +7,21 @@ struct ProjectDetailsView: View {
 	@State private var isEditSheetShown = false
 	@State private var title = ""
 	@State private var desc = ""
+	@State private var createdAt = ""
+	@State private var modifiedAt = ""
+	
+	let formatter = DateFormatter()
 	
     var body: some View {
 		NavigationStack {
 			ScrollView {
-				VStack {
+				VStack(alignment: .leading) {
 					Text(project.title)
 						.font(.title)
+					Text("Created at: \(createdAt)")
+						.font(.subheadline)
+					Text("Modified at: \(modifiedAt)")
+						.font(.subheadline)
 					Text(project.desc)
 					Spacer()
 				}.toolbar {
@@ -41,6 +49,10 @@ struct ProjectDetailsView: View {
 					isEditSheetShown.toggle()
 				})
 			}
+		}.onAppear() {
+			formatter.dateStyle = .medium
+			createdAt = formatter.string(from: project.createdAt)
+			modifiedAt = formatter.string(from: project.modifiedAt)
 		}
     }
 }
