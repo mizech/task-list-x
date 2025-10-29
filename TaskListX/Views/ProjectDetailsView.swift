@@ -18,10 +18,14 @@ struct ProjectDetailsView: View {
 				VStack(alignment: .leading) {
 					Text(project.title)
 						.font(.title)
+						.padding(.bottom, 2)
 					Text("Created at: \(createdAt)")
+						.foregroundStyle(.black.mix(with: .gray, by: 0.7))
 						.font(.subheadline)
 					Text("Modified at: \(modifiedAt)")
+						.foregroundStyle(.black.mix(with: .gray, by: 0.7))
 						.font(.subheadline)
+						.padding(.bottom, 4)
 					Text(project.desc)
 					Spacer()
 				}.toolbar {
@@ -35,7 +39,8 @@ struct ProjectDetailsView: View {
 						}
 					}
 				}.padding()
-			}.sheet(isPresented: $isEditSheetShown) {
+			}
+			.sheet(isPresented: $isEditSheetShown) {
 				ProjectFormView(project: project, action: { title, desc in
 					project.title = title
 					project.desc = desc
