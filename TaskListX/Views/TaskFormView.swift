@@ -7,9 +7,11 @@ struct TaskFormView: View {
 	
 	@Query var projects: [Project]
 	
-	@State var title: String = ""
-	@State var desc: String = ""
+	@State var title = ""
+	@State var desc = ""
 	@State var project: Project? = nil
+	
+	var task: Task? = nil
 	
     var body: some View {
 		NavigationStack {
@@ -39,12 +41,19 @@ struct TaskFormView: View {
 				
 				Section {
 					Button {
-						let task = Task(
-							title: title,
-							desc: desc,
-							project: project ?? nil
-						)
-						context.insert(task)
+						if let task = self.task {
+							task.title = title
+							task.desc = desc
+							task.project = project
+						} else {
+							let task = Task(
+								title: title,
+								desc: desc,
+								project: project
+							)
+							context.insert(task)
+						}
+						
 						do {
 							try context.save()
 						} catch {
@@ -71,6 +80,12 @@ struct TaskFormView: View {
 				}
 			}
 		}.onAppear() {
+			if let task = self.task {
+				self.title = task.title
+				self.desc = task.desc
+				self.project = task.project
+			}
+			
 			if projects.count > 0 {
 				project = projects.first
 			}
@@ -78,6 +93,13 @@ struct TaskFormView: View {
     }
 }
 
-#Preview {
-    TaskFormView()
+extension TaskFormView {
+	init(task: Task) {
+		self.task = task
+	}
 }
+
+#Preview {
+	TaskFormView()
+}
+

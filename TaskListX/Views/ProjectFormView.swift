@@ -14,13 +14,13 @@ struct ProjectFormView: View {
 			Form {
 				Section("Project") {
 					LabeledContent {
-						TextField("Title", text: $title)
+						TextField("Enter a title", text: $title)
 							.textFieldStyle(.roundedBorder)
 					} label: {
 						Text("Title")
 					}
 					LabeledContent {
-						TextField("Description", text: $description)
+						TextField("Describe your project", text: $description)
 							.textFieldStyle(.roundedBorder)
 					} label: {
 						Text("Description")

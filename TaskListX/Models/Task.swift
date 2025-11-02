@@ -6,7 +6,7 @@ class Task {
 	var id = UUID().uuidString
 	var title: String
 	var desc: String
-	let createdAt = Date.now
+	var createdAt = Date.now
 	var modifiedAt = Date.now
 	
 	var project: Project? = nil

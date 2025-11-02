@@ -3,10 +3,10 @@ import SwiftData
 
 @Model
 class Project {
-	let id = UUID().uuidString
+	var id = UUID().uuidString
 	var title: String
 	var desc: String
-	let createdAt = Date.now
+	var createdAt = Date.now
 	var modifiedAt = Date.now
 	
 	@Relationship(deleteRule: .cascade, inverse: \Task.project)

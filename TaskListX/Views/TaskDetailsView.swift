@@ -5,11 +5,8 @@ struct TaskDetailsView: View {
 	@Bindable var task: Task
 	
 	@State private var isEditSheetShown = false
-	@State private var title = ""
-	@State private var desc = ""
-	@State private var project: Project? = nil
 	
-    var body: some View {
+	var body: some View {
 		NavigationStack {
 			ScrollView {
 				VStack {
@@ -21,9 +18,20 @@ struct TaskDetailsView: View {
 					}
 					Spacer()
 				}
-			}
+			}.toolbar {
+				ToolbarItem(placement: .topBarTrailing) {
+					Button {
+						isEditSheetShown.toggle()
+					} label: {
+						Label("Edit", systemImage: "pencil")
+					}
+				}
+			}.padding()
+				.sheet(isPresented: $isEditSheetShown) {
+					TaskFormView(task: task)
+				}
 		}
-    }
+	}
 }
 
 #Preview {
@@ -32,6 +40,5 @@ struct TaskDetailsView: View {
 			title: "Title 01",
 			desc: "Desc 01",
 			project: nil
-		)
-	)
+		))
 }
