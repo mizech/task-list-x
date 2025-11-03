@@ -10,19 +10,22 @@ struct ProjectDetailsView: View {
 	@State private var createdAt = ""
 	@State private var modifiedAt = ""
 	
-	let formatter = DateFormatter()
-	
     var body: some View {
 		NavigationStack {
 			ScrollView {
 				VStack(alignment: .leading) {
 					Text(project.title)
 						.font(.title)
+						.fontWeight(.bold)
 						.padding(.bottom, 2)
-					Text("Created at: \(createdAt)")
+					Text(
+						"Created at: \(project.createdAt.formatted(date: .long, time: .shortened))"
+					)
 						.foregroundStyle(.black.mix(with: .gray, by: 0.7))
 						.font(.subheadline)
-					Text("Modified at: \(modifiedAt)")
+					Text(
+						"Modified at: \(project.modifiedAt.formatted(date: .long, time: .shortened))"
+					)
 						.foregroundStyle(.black.mix(with: .gray, by: 0.7))
 						.font(.subheadline)
 						.padding(.bottom, 4)
@@ -54,10 +57,6 @@ struct ProjectDetailsView: View {
 					isEditSheetShown.toggle()
 				})
 			}
-		}.onAppear() {
-			formatter.dateStyle = .medium
-			createdAt = formatter.string(from: project.createdAt)
-			modifiedAt = formatter.string(from: project.modifiedAt)
 		}
     }
 }
