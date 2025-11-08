@@ -16,7 +16,14 @@ struct ProjectsView: View {
 					NavigationLink {
 						ProjectDetailsView(project: project)
 					} label: {
-						Text(project.title)
+						VStack(alignment: .leading) {
+							Text(project.title)
+								.bold()
+							Text(project.desc)
+								.lineLimit(2)
+								.autocorrectionDisabled(true)
+								.textInputAutocapitalization(.never)
+						}
 					}
 				}.onDelete { indexSet in
 					for index in indexSet {
