@@ -34,7 +34,17 @@ struct TaskDetailsView: View {
 						.foregroundStyle(.black.mix(with: .gray, by: 0.7))
 						.font(.subheadline)
 						.padding(.bottom, 4)
-					Text(task.desc)
+					LabeledContent {
+						Text(task.desc)
+					} label: {
+						Text("Description")
+					}
+					LabeledContent {
+						Text(task.status.rawValue)
+					} label: {
+						Text("Status")
+					}
+
 					Spacer()
 				}
 			}.toolbar {
@@ -64,6 +74,7 @@ struct TaskDetailsView: View {
 		task: Task(
 			title: "Title 01",
 			desc: "Desc 01",
+			status: Status.open,
 			project: Project(
 				title: "Project_Title",
 				desc: "-"

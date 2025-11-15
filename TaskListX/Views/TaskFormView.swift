@@ -10,13 +10,14 @@ struct TaskFormView: View {
 	@State var title = ""
 	@State var desc = ""
 	@State var project: Project? = nil
+	@State var status = Status.open
 	
 	var task: Task? = nil
 	
     var body: some View {
 		NavigationStack {
 			Form {
-				Section("Task") {
+				Section("Task x") {
 					LabeledContent {
 						TextField("Title", text: $title)
 							.textFieldStyle(.roundedBorder)
@@ -29,6 +30,11 @@ struct TaskFormView: View {
 					} label: {
 						Text("Description")
 					}
+					Picker("Status", selection: $status) {
+						ForEach(Status.allCases, id: \.self) { status in
+							Text(status.rawValue)
+						}
+					}
 					if projects.count > 0 {
 						Picker("Allocation", selection: $project) {
 							ForEach(projects, id: \.self) { project in
@@ -37,6 +43,7 @@ struct TaskFormView: View {
 						}.pickerStyle(.menu)
 						Text(project?.title ?? "")
 					}
+					
 				}
 				
 				Section {
@@ -45,10 +52,12 @@ struct TaskFormView: View {
 							task.title = title
 							task.desc = desc
 							task.project = project
+							task.status = status
 						} else {
 							let task = Task(
 								title: title,
 								desc: desc,
+								status: status,
 								project: project
 							)
 							context.insert(task)
@@ -88,6 +97,7 @@ struct TaskFormView: View {
 			
 			if projects.count > 0 {
 				project = projects.first
+				status = project?.status ?? Status.open
 			}
 		}
     }

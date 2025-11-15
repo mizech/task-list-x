@@ -6,6 +6,8 @@ class Project {
 	var id = UUID().uuidString
 	var title: String
 	var desc: String
+	
+	var status = Status.open
 	var createdAt = Date.now
 	var modifiedAt = Date.now
 	
