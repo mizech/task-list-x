@@ -27,6 +27,7 @@ struct TaskFormView: View {
 					LabeledContent {
 						TextField("Description", text: $desc)
 							.textFieldStyle(.roundedBorder)
+							.autocorrectionDisabled(true)
 					} label: {
 						Text("Description")
 					}

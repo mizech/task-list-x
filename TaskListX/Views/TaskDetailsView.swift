@@ -23,28 +23,29 @@ struct TaskDetailsView: View {
 							.fontWeight(.bold)
 							.padding(.bottom, 2)
 					}
-					Text(
-						"Created at: \(task.createdAt.formatted(date: .long, time: .shortened))"
-					)
-						.foregroundStyle(.black.mix(with: .gray, by: 0.7))
+					LabeledContent {
+						Text(task.createdAt.formatted(date: .long, time: .shortened))
+					} label: {
+						Text("Created at: ")
+					}
 						.font(.subheadline)
-					Text(
-						"Modifed at: \(task.modifiedAt.formatted(date: .long, time: .shortened))"
-					)
-						.foregroundStyle(.black.mix(with: .gray, by: 0.7))
+					LabeledContent {
+						Text(task.modifiedAt.formatted(date: .long, time: .shortened))
+					} label: {
+						Text("Modified at: ")
+					}
 						.font(.subheadline)
 						.padding(.bottom, 4)
 					LabeledContent {
-						Text(task.desc)
-					} label: {
-						Text("Description")
-					}
-					LabeledContent {
 						Text(task.status.rawValue)
 					} label: {
-						Text("Status")
+						Text("Status: ")
 					}
-
+					LabeledContent {
+						Text(task.desc)
+					} label: {
+						Text("Description: ")
+					}.labeledContentStyle(.automatic)
 					Spacer()
 				}
 			}.toolbar {
