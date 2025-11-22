@@ -2,13 +2,15 @@ import Foundation
 import SwiftData
 
 @Model
-class Task {
+class Task: Trackable {
 	var id = UUID().uuidString
 	var title: String
 	var desc: String
 	var status = Status.open.rawValue
+	
 	var createdAt = Date.now
 	var modifiedAt = Date.now
+	var isDeleted = false
 	
 	var project: Project? = nil
 	

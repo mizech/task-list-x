@@ -9,10 +9,9 @@ struct TasksView: View {
 	
 	init() {
 		let done = Status.done.rawValue
-		let discarded = Status.discarded.rawValue
 		
 		let filter = #Predicate<Task> { task in
-			task.status != done && task.status != discarded
+			task.status != done && task.isDeleted == false
 		}
 		
 		_tasks = Query(filter: filter)
@@ -36,7 +35,7 @@ struct TasksView: View {
 				}
 				.onDelete { indexSet in
 					for index in indexSet {
-						context.delete(tasks[index])
+						tasks[index].isDeleted = false
 						
 						do {
 							try context.save()

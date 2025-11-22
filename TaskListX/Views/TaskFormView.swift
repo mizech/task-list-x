@@ -5,12 +5,15 @@ struct TaskFormView: View {
 	@Environment(\.modelContext) var context
 	@Environment(\.dismiss) var dismiss
 	
-	@Query var projects: [Project]
+	@Query(filter: #Predicate<Project> { project in
+		project.isDeleted == false
+	}) var projects: [Project]
 	
 	@State var title = ""
 	@State var desc = ""
 	@State var project: Project? = nil
 	@State var status = Status.open
+	@State var feasibleProjectSelections = [FeasibleProjectSelection]()
 	
 	var task: Task? = nil
 	
@@ -38,8 +41,12 @@ struct TaskFormView: View {
 					}
 					if projects.count > 0 {
 						Picker("Allocation", selection: $project) {
-							ForEach(projects, id: \.self) { project in
-								Text(project.title).tag(project)
+							ForEach(
+								feasibleProjectSelections,
+								id: \.self
+							) { feasibleSelection in
+								Text(feasibleSelection.title)
+									.tag(feasibleSelection.project)
 							}
 						}.pickerStyle(.menu)
 						Text(project?.title ?? "")
@@ -97,8 +104,22 @@ struct TaskFormView: View {
 			}
 			
 			if projects.count > 0 {
-				project = projects.first
-				status = project?.status ?? Status.open
+				feasibleProjectSelections
+					.append(
+						FeasibleProjectSelection(
+							title: "None",
+							project: nil
+						)
+					)
+				projects.forEach { project in
+					feasibleProjectSelections
+						.append(
+							FeasibleProjectSelection(
+								title: project.title,
+								project: project
+							)
+						)
+				}
 			}
 		}
     }

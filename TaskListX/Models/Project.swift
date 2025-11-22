@@ -2,16 +2,16 @@ import Foundation
 import SwiftData
 
 @Model
-class Project {
+class Project: Trackable {
 	var id = UUID().uuidString
 	var title: String
 	var desc: String
 	
-	var status = Status.open
 	var createdAt = Date.now
 	var modifiedAt = Date.now
+	var isDeleted = false
 	
-	@Relationship(deleteRule: .cascade, inverse: \Task.project)
+	@Relationship(deleteRule: .nullify, inverse: \Task.project)
 	var tasks = [Task]()
 	
 	init(title: String, desc: String) {

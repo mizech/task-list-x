@@ -3,7 +3,9 @@ import SwiftUI
 
 struct ProjectsView: View {
 	@Environment(\.modelContext) private var context
-	@Query private var projects: [Project]
+	@Query(filter: #Predicate<Project> { project in
+		project.isDeleted == false
+	}) private var projects: [Project]
 	
 	@State private var isCreateSheetShown = false
 	@State private var title = ""
@@ -27,7 +29,16 @@ struct ProjectsView: View {
 					}
 				}.onDelete { indexSet in
 					for index in indexSet {
-						context.delete(projects[index])
+						projects[index].isDeleted = true
+						projects[index].tasks.forEach { task in
+							task.project = nil
+						}
+						
+						do {
+							try context.save()
+						} catch {
+							print(error)
+						}
 					}
 					do {
 						try context.save()
