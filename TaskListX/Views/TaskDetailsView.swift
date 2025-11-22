@@ -37,7 +37,7 @@ struct TaskDetailsView: View {
 						.font(.subheadline)
 						.padding(.bottom, 4)
 					LabeledContent {
-						Text(task.status.rawValue)
+						Text(task.status)
 					} label: {
 						Text("Status: ")
 					}
@@ -75,7 +75,7 @@ struct TaskDetailsView: View {
 		task: Task(
 			title: "Title 01",
 			desc: "Desc 01",
-			status: Status.open,
+			status: Status.open.rawValue,
 			project: Project(
 				title: "Project_Title",
 				desc: "-"

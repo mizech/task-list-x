@@ -6,7 +6,7 @@ class Task {
 	var id = UUID().uuidString
 	var title: String
 	var desc: String
-	var status = Status.open
+	var status = Status.open.rawValue
 	var createdAt = Date.now
 	var modifiedAt = Date.now
 	
@@ -16,7 +16,7 @@ class Task {
 		id: String = UUID().uuidString,
 		title: String,
 		desc: String,
-		status: Status,
+		status: String,
 		project: Project?
 	) {
 		self.id = id

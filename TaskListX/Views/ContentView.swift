@@ -24,7 +24,7 @@ struct ContentView: View {
 			}.tag(Views.tasks)
 			
 			VStack  {
-				Text("Archive")
+				ArchiveView()
 			}.tabItem {
 				Label("Archive", systemImage: "archivebox")
 			}.tag(Views.archive)

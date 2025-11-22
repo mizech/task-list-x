@@ -17,19 +17,22 @@ struct ProjectDetailsView: View {
 					Text(project.title)
 						.font(.title)
 						.fontWeight(.bold)
-						.padding(.bottom, 2)
-					Text(
-						"Created at: \(project.createdAt.formatted(date: .long, time: .shortened))"
-					)
-						.foregroundStyle(.black.mix(with: .gray, by: 0.7))
-						.font(.subheadline)
-					Text(
-						"Modified at: \(project.modifiedAt.formatted(date: .long, time: .shortened))"
-					)
-						.foregroundStyle(.black.mix(with: .gray, by: 0.7))
-						.font(.subheadline)
+					LabeledContent {
+						Text(project.createdAt.formatted(date: .long, time: .shortened))
+					} label: {
+						Text("Created at: ")
+					}.font(.subheadline)
+					LabeledContent {
+						Text(project.modifiedAt.formatted(date: .long, time: .shortened))
+					} label: {
+						Text("Modified at: ")
+					}.font(.subheadline)
 						.padding(.bottom, 4)
-					Text(project.desc)
+					LabeledContent {
+						Text(project.desc)
+					} label: {
+						Text("Description: ")
+					}.labeledContentStyle(.automatic)
 					Spacer()
 				}.toolbar {
 					ToolbarItem(placement: .topBarTrailing) {

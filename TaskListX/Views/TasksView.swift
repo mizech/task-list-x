@@ -4,8 +4,19 @@ import SwiftUI
 struct TasksView: View {
 	@Environment(\.modelContext) private var context
 	@Query private var tasks: [Task]
-	
+		
 	@State private var isCreateSheetShown = false
+	
+	init() {
+		let done = Status.done.rawValue
+		let discarded = Status.discarded.rawValue
+		
+		let filter = #Predicate<Task> { task in
+			task.status != done && task.status != discarded
+		}
+		
+		_tasks = Query(filter: filter)
+	}
 	
     var body: some View {
 		NavigationStack {

@@ -17,7 +17,7 @@ struct TaskFormView: View {
     var body: some View {
 		NavigationStack {
 			Form {
-				Section("Task x") {
+				Section("Task") {
 					LabeledContent {
 						TextField("Title", text: $title)
 							.textFieldStyle(.roundedBorder)
@@ -53,12 +53,12 @@ struct TaskFormView: View {
 							task.title = title
 							task.desc = desc
 							task.project = project
-							task.status = status
+							task.status = status.rawValue
 						} else {
 							let task = Task(
 								title: title,
 								desc: desc,
-								status: status,
+								status: status.rawValue,
 								project: project
 							)
 							context.insert(task)
