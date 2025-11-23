@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-class Project: Trackable {
+class Project {
 	var id = UUID().uuidString
 	var title: String
 	var desc: String
