@@ -35,7 +35,7 @@ struct TasksView: View {
 				}
 				.onDelete { indexSet in
 					for index in indexSet {
-						tasks[index].isDeleted = false
+						tasks[index].isDeleted = true
 						
 						do {
 							try context.save()
