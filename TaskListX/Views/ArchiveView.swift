@@ -12,7 +12,7 @@ struct ArchiveView: View {
 	init() {
 		let isDone = Status.done.rawValue
 		let filter = #Predicate<Task> { task in
-			task.isDeleted == true || task.status == isDone
+			task.isDeleted == true || task.status == isDone
 		}
 		_tasks = Query(filter: filter)
 	}
@@ -25,7 +25,7 @@ struct ArchiveView: View {
 						.bold()
 					Text(project.desc)
 						.lineLimit(2)
-				}
+				}.strikethrough(true)
 			}
 			.onDelete { indexSet in
 				for index in indexSet {
@@ -45,7 +45,7 @@ struct ArchiveView: View {
 						.bold()
 					Text(task.desc)
 						.lineLimit(2)
-				}
+				}.strikethrough()
 			}
 			.onDelete { indexSet in
 				for index in indexSet {

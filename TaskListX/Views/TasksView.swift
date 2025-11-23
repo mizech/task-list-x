@@ -30,7 +30,7 @@ struct TasksView: View {
 							if task.project != nil {
 								Text(task.project?.title ?? "")
 							}
-						}
+						}.strikethrough(task.isDeleted == true)
 					}
 				}
 				.onDelete { indexSet in
