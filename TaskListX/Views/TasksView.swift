@@ -11,7 +11,7 @@ struct TasksView: View {
 		let done = Status.done.rawValue
 		
 		let filter = #Predicate<Task> { task in
-			task.status != done && task.isDeleted == false
+			task.status != done && task.hasBeenDeleted == false
 		}
 		
 		_tasks = Query(filter: filter)
@@ -30,12 +30,14 @@ struct TasksView: View {
 							if task.project != nil {
 								Text(task.project?.title ?? "")
 							}
-						}.strikethrough(task.isDeleted == true)
+						}.strikethrough(task.hasBeenDeleted == true)
 					}
 				}
 				.onDelete { indexSet in
 					for index in indexSet {
-						tasks[index].isDeleted = true
+						var task = tasks[index]
+						task.hasBeenDeleted = true
+						task.modifiedAt = Date.now
 						
 						do {
 							try context.save()

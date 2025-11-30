@@ -10,7 +10,7 @@ class Task {
 	
 	var createdAt = Date.now
 	var modifiedAt = Date.now
-	var isDeleted = false
+	var hasBeenDeleted = false
 	
 	var project: Project? = nil
 	

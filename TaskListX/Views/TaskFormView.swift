@@ -6,7 +6,7 @@ struct TaskFormView: View {
 	@Environment(\.dismiss) var dismiss
 	
 	@Query(filter: #Predicate<Project> { project in
-		project.isDeleted == false
+		project.hasBeenDeleted == false
 	}) var projects: [Project]
 	
 	@State var title = ""

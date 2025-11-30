@@ -24,9 +24,14 @@ struct ContentView: View {
 			}.tag(Views.tasks)
 			
 			VStack  {
-				ArchiveView()
+				ProjectsArchiveView()
 			}.tabItem {
-				Label("Archive", systemImage: "archivebox")
+				Label("Project archive", systemImage: "archivebox")
+			}.tag(Views.archive)
+			VStack  {
+				TasksArchiveView()
+			}.tabItem {
+				Label("Task archive", systemImage: "trash")
 			}.tag(Views.archive)
 		}
     }

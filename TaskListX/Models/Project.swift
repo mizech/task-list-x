@@ -9,7 +9,7 @@ class Project {
 	
 	var createdAt = Date.now
 	var modifiedAt = Date.now
-	var isDeleted = false
+	var hasBeenDeleted = false
 	
 	@Relationship(deleteRule: .nullify, inverse: \Task.project)
 	var tasks = [Task]()
