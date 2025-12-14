@@ -48,6 +48,7 @@ struct ProjectsView: View {
 					}
 				}
 			}
+			.listStyle(.plain)
 			.toolbar {
 				ToolbarItem(placement: .topBarTrailing) {
 					Button {

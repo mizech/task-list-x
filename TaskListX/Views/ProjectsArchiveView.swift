@@ -61,6 +61,7 @@ struct ProjectsArchiveView: View {
 				}
 			}.navigationTitle("Archived projects")
 				.navigationBarTitleDisplayMode(.inline)
+				.listStyle(.plain)
 		}
     }
 }

@@ -47,6 +47,7 @@ struct TasksView: View {
 					}
 				}
 			}
+			.listStyle(.plain)
 			.toolbar(content: {
 				ToolbarItem(placement: .topBarTrailing) {
 					Button {
