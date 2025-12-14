@@ -57,6 +57,7 @@ struct TasksView: View {
 				}
 			})
 			.navigationTitle("Tasks")
+			.navigationBarTitleDisplayMode(.inline)
 		}.sheet(isPresented: $isCreateSheetShown) {
 			TaskFormView()
 		}

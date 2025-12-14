@@ -25,9 +25,7 @@ struct TasksArchiveView: View {
 						.lineLimit(2)
 					Text("\(task.modifiedAt)")
 						.lineLimit(2)
-					Text("\(task.hasBeenDeleted)")
-						.strikethrough(task.hasBeenDeleted == true)
-				}
+				}.strikethrough(task.hasBeenDeleted == true)
 			}
 			.onDelete { indexSet in
 				for index in indexSet {

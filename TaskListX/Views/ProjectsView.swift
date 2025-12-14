@@ -59,6 +59,7 @@ struct ProjectsView: View {
 				}
 			}
 			.navigationTitle("Projects")
+			.navigationBarTitleDisplayMode(.inline)
 		}.sheet(isPresented: $isCreateSheetShown) {
 			ProjectFormView() { title, desc in
 				context.insert(

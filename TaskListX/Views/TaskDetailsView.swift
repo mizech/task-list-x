@@ -5,8 +5,6 @@ struct TaskDetailsView: View {
 	@Bindable var task: Task
 	
 	@State private var isEditSheetShown = false
-	@State private var createdAt = ""
-	@State private var modifiedAt = ""
 	
 	let dateFormatter = DateFormatter()
 	
@@ -60,8 +58,6 @@ struct TaskDetailsView: View {
 				.onAppear() {
 					dateFormatter.dateStyle = .short
 					dateFormatter.timeStyle = .short
-					createdAt = dateFormatter.string(from: task.createdAt)
-					modifiedAt = dateFormatter.string(from: task.modifiedAt)
 				}
 				.sheet(isPresented: $isEditSheetShown) {
 					TaskFormView(task: task)
