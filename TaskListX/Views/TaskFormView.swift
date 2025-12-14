@@ -12,7 +12,7 @@ struct TaskFormView: View {
 	@State var title = ""
 	@State var desc = ""
 	@State var project: Project? = nil
-	@State var status = Status.open
+	@State var status = Status.open.rawValue
 	@State var feasibleProjectSelections = [FeasibleProjectSelection]()
 	
 	var task: Task? = nil
@@ -36,8 +36,13 @@ struct TaskFormView: View {
 					}
 					Picker("Status", selection: $status) {
 						ForEach(Status.allCases, id: \.self) { status in
-							Text(status.rawValue)
+							Text(status.rawValue).tag(status.rawValue)
 						}
+					}
+					LabeledContent {
+						Text(status)
+					} label: {
+						Text("Selected")
 					}
 					if projects.count > 0 {
 						Picker("Allocation", selection: $project) {
@@ -60,12 +65,12 @@ struct TaskFormView: View {
 							task.title = title
 							task.desc = desc
 							task.project = project
-							task.status = status.rawValue
+							task.status = status
 						} else {
 							let task = Task(
 								title: title,
 								desc: desc,
-								status: status.rawValue,
+								status: status,
 								project: project
 							)
 							context.insert(task)
@@ -101,6 +106,7 @@ struct TaskFormView: View {
 				self.title = task.title
 				self.desc = task.desc
 				self.project = task.project
+				self.status = task.status
 			}
 			
 			if projects.count > 0 {
