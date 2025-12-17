@@ -22,10 +22,8 @@ struct ProjectsArchiveView: View {
 						Text(project.title)
 							.bold()
 							.lineLimit(2)
-							.strikethrough(project.hasBeenDeleted)
 						Text(project.desc)
 							.lineLimit(2)
-							.strikethrough(project.hasBeenDeleted)
 						LabeledContent {
 							Text(dateFormatter.string(from: project.createdAt))
 						} label: {

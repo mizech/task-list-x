@@ -10,11 +10,14 @@ struct ProjectsView: View {
 	@State private var isCreateSheetShown = false
 	@State private var title = ""
 	@State private var description = ""
+	@State private var searchText = ""
+	
+	@State private var filteredProjects = [Project]()
 	
 	var body: some View {
 		NavigationStack {
 			List {
-				ForEach(projects) { project in
+				ForEach(filteredProjects) { project in
 					NavigationLink {
 						ProjectDetailsView(project: project)
 					} label: {
@@ -61,8 +64,23 @@ struct ProjectsView: View {
 			}
 			.navigationTitle("Projects")
 			.navigationBarTitleDisplayMode(.inline)
-		}.sheet(isPresented: $isCreateSheetShown) {
+		}
+		.searchable(text: $searchText)
+		.onChange(of: searchText, {
+			if searchText.isEmpty == false {
+				filteredProjects = projects.filter { project in
+					project.title.contains(searchText)
+				}
+			} else {
+				filteredProjects = projects
+			}
+		})
+		.onAppear() {
+			filteredProjects = projects
+		}
+		.sheet(isPresented: $isCreateSheetShown) {
 			ProjectFormView() { title, desc in
+				
 				context.insert(
 					Project(
 						title: title,
