@@ -6,6 +6,9 @@ struct TasksView: View {
 	@Query private var tasks: [Task]
 		
 	@State private var isCreateSheetShown = false
+	@State private var searchText = ""
+	
+	@State private var filteredTasks = [Task]()
 	
 	init() {
 		let done = Status.done.rawValue
@@ -20,7 +23,7 @@ struct TasksView: View {
     var body: some View {
 		NavigationStack {
 			List {
-				ForEach(tasks) { task in
+				ForEach(filteredTasks) { task in
 					NavigationLink {
 						TaskDetailsView(task: task)
 					} label: {
@@ -59,7 +62,34 @@ struct TasksView: View {
 			})
 			.navigationTitle("Tasks")
 			.navigationBarTitleDisplayMode(.inline)
-		}.sheet(isPresented: $isCreateSheetShown) {
+		}
+		.searchable(text: $searchText)
+		.onChange(of: searchText) {
+			if searchText.isEmpty == true {
+				filteredTasks = tasks
+			} else {
+				filteredTasks = tasks.filter { task in
+					if task.title
+						.contains(searchText) || task.desc
+						.contains(searchText) {
+						return true
+					} else {
+						if let project = task.project, project.title
+							.contains(searchText) {
+							return true
+						}
+					}
+					return false
+				}
+			}
+		}
+		.onChange(of: tasks) {
+			filteredTasks = tasks
+		}
+		.onAppear() {
+			filteredTasks = tasks
+		}
+		.sheet(isPresented: $isCreateSheetShown) {
 			TaskFormView()
 		}
     }

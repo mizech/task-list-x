@@ -80,16 +80,15 @@ struct ProjectsView: View {
 		}
 		.sheet(isPresented: $isCreateSheetShown) {
 			ProjectFormView() { title, desc in
-				
-				context.insert(
-					Project(
-						title: title,
-						desc: desc
-					)
-				)
+				let newProject = Project(
+					title: title,
+					   desc: desc
+				   )
+				context.insert(newProject)
 				
 				do {
 					try context.save()
+					filteredProjects = projects
 				} catch {
 					print("context.save() -> Failed")
 					print(error)
