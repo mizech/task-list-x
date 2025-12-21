@@ -7,6 +7,8 @@ struct ProjectsArchiveView: View {
 		project.hasBeenDeleted == true
 	}) var projects: [Project]
 	
+	@State private var searchText = ""
+	
 	let dateFormatter = DateFormatter()
 	
 	init() {
@@ -34,15 +36,23 @@ struct ProjectsArchiveView: View {
 						} label: {
 							Text("Deleted at: ")
 						}
-						HStack(alignment: .center) {
-							Spacer()
-							Button {
-								project.hasBeenDeleted = false
-							} label: {
-								Label("Recreate", systemImage: "arrow.up.trash")
+						Button {
+							project.hasBeenDeleted = false
+							
+							do {
+								try context.save()
+							} catch {
+								print(error)
 							}
-							Spacer()
-						}.padding(.top)
+						} label: {
+							Label("Recreate", systemImage: "arrow.up.trash")
+								.frame(height: 40)
+									.frame(maxWidth: .infinity)
+									.background(.blue)
+									.foregroundStyle(.white)
+									.fontWeight(.bold)
+									.clipShape(RoundedRectangle(cornerRadius: 8))
+						}
 					}
 				}
 				.onDelete { indexSet in
@@ -60,6 +70,7 @@ struct ProjectsArchiveView: View {
 			}.navigationTitle("Archived projects")
 				.navigationBarTitleDisplayMode(.inline)
 				.listStyle(.plain)
+				.searchable(text: $searchText)
 		}
     }
 }

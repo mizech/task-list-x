@@ -26,12 +26,12 @@ struct ContentView: View {
 			VStack  {
 				ProjectsArchiveView()
 			}.tabItem {
-				Label("Project archive", systemImage: "archivebox")
+				Label("Projects archive", systemImage: "archivebox")
 			}.tag(Views.archive)
 			VStack  {
 				TasksArchiveView()
 			}.tabItem {
-				Label("Task archive", systemImage: "trash")
+				Label("Tasks archive", systemImage: "trash")
 			}.tag(Views.archive)
 		}
     }

@@ -1,6 +1,12 @@
 import SwiftData
 import SwiftUI
 
+private extension Collection {
+    subscript(safe index: Index) -> Element? {
+        indices.contains(index) ? self[index] : nil
+    }
+}
+
 struct TasksView: View {
 	@Environment(\.modelContext) private var context
 	@Query private var tasks: [Task]
@@ -8,16 +14,25 @@ struct TasksView: View {
 	@State private var isCreateSheetShown = false
 	@State private var searchText = ""
 	
-	@State private var filteredTasks = [Task]()
+	private var filteredTasks: [Task] {
+		let base = tasks
+		let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+		guard query.isEmpty == false else { return base }
+		return base.filter { task in
+			if task.title.localizedCaseInsensitiveContains(query) { return true }
+			if task.desc.localizedCaseInsensitiveContains(query) { return true }
+			if let project = task.project, project.title.localizedCaseInsensitiveContains(query) { return true }
+			return false
+		}
+	}
 	
 	init() {
 		let done = Status.done.rawValue
-		
-		let filter = #Predicate<Task> { task in
+		let filter: Predicate<Task> = #Predicate { task in
 			task.status != done && task.hasBeenDeleted == false
 		}
 		
-		_tasks = Query(filter: filter)
+		_tasks = Query(filter: filter, sort: [SortDescriptor(\.modifiedAt, order: .reverse)])
 	}
 	
     var body: some View {
@@ -30,18 +45,18 @@ struct TasksView: View {
 						VStack(alignment: .leading) {
 							Text(task.title)
 								.fontWeight(.bold)
-							if task.project != nil {
-								Text(task.project?.title ?? "")
+							if let project = task.project {
+								Text(project.title)
 							}
-						}.strikethrough(task.hasBeenDeleted == true)
+						}.strikethrough(task.isDeleted == true)
 					}
 				}
 				.onDelete { indexSet in
-					for index in indexSet {
-						var task = tasks[index]
+					let itemsToDelete = indexSet.compactMap { filteredTasks[safe: $0] }
+					for item in itemsToDelete {
+						var task = item
 						task.hasBeenDeleted = true
 						task.modifiedAt = Date.now
-						
 						do {
 							try context.save()
 						} catch {
@@ -64,31 +79,6 @@ struct TasksView: View {
 			.navigationBarTitleDisplayMode(.inline)
 		}
 		.searchable(text: $searchText)
-		.onChange(of: searchText) {
-			if searchText.isEmpty == true {
-				filteredTasks = tasks
-			} else {
-				filteredTasks = tasks.filter { task in
-					if task.title
-						.contains(searchText) || task.desc
-						.contains(searchText) {
-						return true
-					} else {
-						if let project = task.project, project.title
-							.contains(searchText) {
-							return true
-						}
-					}
-					return false
-				}
-			}
-		}
-		.onChange(of: tasks) {
-			filteredTasks = tasks
-		}
-		.onAppear() {
-			filteredTasks = tasks
-		}
 		.sheet(isPresented: $isCreateSheetShown) {
 			TaskFormView()
 		}

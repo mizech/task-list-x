@@ -23,10 +23,12 @@ struct TasksArchiveView: View {
 			List {
 				ForEach(tasks, id: \.self) { task in
 					VStack(alignment: .leading) {
-						Text(task.title)
-							.bold()
-						Text(task.desc)
-							.lineLimit(2)
+						VStack {
+							Text(task.title)
+								.bold()
+							Text(task.desc)
+								.lineLimit(2)
+						}.strikethrough(task.status == Status.done.rawValue)
 						LabeledContent {
 							Text(dateFormatter.string(from: task.createdAt))
 								.lineLimit(2)
@@ -39,7 +41,28 @@ struct TasksArchiveView: View {
 						} label: {
 							Text("Deleted at: ")
 						}
-					}.strikethrough(task.hasBeenDeleted == true)
+						Button {
+							if task.hasBeenDeleted == true {
+								task.hasBeenDeleted = false
+							} else {
+								task.status = Status.open.rawValue
+							}
+							do {
+								try context.save()
+							} catch {
+								print(error)
+							}
+						} label: {
+							Label("Recreate", systemImage: 	"trash")
+								.frame(height: 40)
+								.frame(maxWidth: .infinity)
+								.background(.blue)
+								.foregroundStyle(.white)
+								.fontWeight(.bold)
+								.clipShape(RoundedRectangle(cornerRadius: 8))
+						}
+
+					}
 				}
 				.onDelete { indexSet in
 					for index in indexSet {

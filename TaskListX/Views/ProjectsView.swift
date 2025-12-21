@@ -42,6 +42,7 @@ struct ProjectsView: View {
 						} catch {
 							print(error)
 						}
+						filteredProjects = projects
 					}
 					do {
 						try context.save()
