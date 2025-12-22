@@ -57,6 +57,8 @@ struct TasksView: View {
 						var task = item
 						task.hasBeenDeleted = true
 						task.modifiedAt = Date.now
+						task.project = nil
+						
 						do {
 							try context.save()
 						} catch {
