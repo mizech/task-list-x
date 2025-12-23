@@ -79,13 +79,10 @@ struct ProjectsArchiveView: View {
 					return
 				}
 				
-				print(searchText)
-				print("Count before -> \(filteredProjects.count)")
 				filteredProjects = projects.filter { project in
 					project.hasBeenDeleted == true && project.title.localizedLowercase
 						.contains(searchText.localizedLowercase)
 				}
-				print("Count after -> \(filteredProjects.count)")
 			}
 			.navigationTitle("Archived projects")
 				.navigationBarTitleDisplayMode(.inline)
