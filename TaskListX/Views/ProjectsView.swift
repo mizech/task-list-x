@@ -3,6 +3,7 @@ import SwiftUI
 
 struct ProjectsView: View {
 	@Environment(\.modelContext) private var context
+	
 	@Query(filter: #Predicate<Project> { project in
 		project.hasBeenDeleted == false
 	}) private var projects: [Project]
@@ -17,7 +18,7 @@ struct ProjectsView: View {
 	var body: some View {
 		NavigationStack {
 			List {
-				ForEach(filteredProjects) { project in
+				ForEach(projects) { project in
 					NavigationLink {
 						ProjectDetailsView(project: project)
 					} label: {

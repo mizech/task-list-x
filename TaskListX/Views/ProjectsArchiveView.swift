@@ -8,6 +8,7 @@ struct ProjectsArchiveView: View {
 	}) var projects: [Project]
 	
 	@State private var searchText = ""
+	@State private var filteredProjects = [Project]()
 	
 	let dateFormatter = DateFormatter()
 	
@@ -19,7 +20,7 @@ struct ProjectsArchiveView: View {
     var body: some View {
 		NavigationStack {
 			List {
-				ForEach(projects, id: \.self) { project in
+				ForEach(filteredProjects, id: \.self) { project in
 					VStack(alignment: .leading) {
 						Text(project.title)
 							.bold()
@@ -67,7 +68,24 @@ struct ProjectsArchiveView: View {
 						print(error)
 					}
 				}
-			}.navigationTitle("Archived projects")
+			}
+			.onAppear() {
+				filteredProjects = projects
+			}
+			.onChange(of: searchText) {
+				guard searchText.isEmpty == false else {
+					filteredProjects = projects
+					return
+				}
+				
+				print(searchText)
+				print("Count before -> \(filteredProjects.count)")
+				filteredProjects = projects.filter { project in
+					project.hasBeenDeleted == true && project.title.contains(searchText)
+				}
+				print("Count after -> \(filteredProjects.count)")
+			}
+			.navigationTitle("Archived projects")
 				.navigationBarTitleDisplayMode(.inline)
 				.listStyle(.plain)
 				.searchable(text: $searchText)
