@@ -45,6 +45,7 @@ struct ProjectsArchiveView: View {
 							} catch {
 								print(error)
 							}
+							filteredProjects = projects
 						} label: {
 							Label("Recreate", systemImage: "arrow.up.trash")
 								.frame(height: 40)

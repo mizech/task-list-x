@@ -18,7 +18,7 @@ struct ProjectsView: View {
 	var body: some View {
 		NavigationStack {
 			List {
-				ForEach(projects) { project in
+				ForEach(filteredProjects) { project in
 					NavigationLink {
 						ProjectDetailsView(project: project)
 					} label: {
@@ -70,6 +70,7 @@ struct ProjectsView: View {
 		.searchable(text: $searchText)
 		.onChange(of: searchText, {
 			if searchText.isEmpty == false {
+				print("\(searchText)")
 				filteredProjects = projects.filter { project in
 					project.title.localizedLowercase
 						.contains(searchText.localizedLowercase)
