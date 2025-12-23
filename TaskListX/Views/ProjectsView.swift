@@ -71,7 +71,8 @@ struct ProjectsView: View {
 		.onChange(of: searchText, {
 			if searchText.isEmpty == false {
 				filteredProjects = projects.filter { project in
-					project.title.contains(searchText)
+					project.title.localizedLowercase
+						.contains(searchText.localizedLowercase)
 				}
 			} else {
 				filteredProjects = projects

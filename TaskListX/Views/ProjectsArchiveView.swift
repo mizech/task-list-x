@@ -81,7 +81,8 @@ struct ProjectsArchiveView: View {
 				print(searchText)
 				print("Count before -> \(filteredProjects.count)")
 				filteredProjects = projects.filter { project in
-					project.hasBeenDeleted == true && project.title.contains(searchText)
+					project.hasBeenDeleted == true && project.title.localizedLowercase
+						.contains(searchText.localizedLowercase)
 				}
 				print("Count after -> \(filteredProjects.count)")
 			}
