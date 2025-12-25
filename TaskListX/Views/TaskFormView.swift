@@ -45,7 +45,7 @@ struct TaskFormView: View {
 						Text("Selected")
 					}
 					if projects.count > 0 {
-						Picker("Allocation", selection: $project) {
+						Picker("Project Allocation", selection: $project) {
 							ForEach(
 								feasibleProjectSelections,
 								id: \.self
