@@ -91,6 +91,16 @@
         }
       }
     },
+    "Done" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erledigt"
+          }
+        }
+      }
+    },
     "Edit" : {
       "localizations" : {
         "de" : {
@@ -121,12 +131,32 @@
         }
       }
     },
+    "In work" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Arbeit"
+          }
+        }
+      }
+    },
     "Modified at: " : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geändert am:"
+          }
+        }
+      }
+    },
+    "Open" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offen"
           }
         }
       }
@@ -141,19 +171,15 @@
         }
       }
     },
-    "Project allocation" : {
-      "extractionState" : "stale",
+    "Project Allocation" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Projektzuteilung"
+            "value" : "Projekt-Zuteilung"
           }
         }
       }
-    },
-    "Project Allocation" : {
-
     },
     "Project: %@" : {
       "localizations" : {

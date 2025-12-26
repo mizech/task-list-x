@@ -26,16 +26,21 @@ struct TaskDetailsView: View {
 					} label: {
 						Text("Created at: ")
 					}
-						.font(.subheadline)
+					.font(.subheadline)
 					LabeledContent {
 						Text(task.modifiedAt.formatted(date: .long, time: .shortened))
 					} label: {
 						Text("Modified at: ")
 					}
-						.font(.subheadline)
-						.padding(.bottom, 4)
+					.font(.subheadline)
+					.padding(.bottom, 4)
 					LabeledContent {
-						Text(task.status)
+						Text(
+							Helper
+								.decideLocalizedTextFrom(
+									statusValue: task.status
+								)
+						)
 					} label: {
 						Text("Status: ")
 					}
