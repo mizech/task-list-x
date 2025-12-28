@@ -5,7 +5,7 @@ struct ProjectsArchiveView: View {
 	@Environment(\.modelContext) var context
 	@Query(filter: #Predicate<Project> { project in
 		project.hasBeenDeleted == true
-	}) var projects: [Project]
+	}, sort: [SortDescriptor(\Project.title)]) var projects: [Project]
 	
 	@State private var searchText = ""
 	@State private var filteredProjects = [Project]()
@@ -59,7 +59,8 @@ struct ProjectsArchiveView: View {
 				}
 				.onDelete { indexSet in
 					for index in indexSet {
-						context.delete(projects[index])
+						context.delete(filteredProjects[index])
+						filteredProjects.remove(at: index)
 					}
 					
 					do {

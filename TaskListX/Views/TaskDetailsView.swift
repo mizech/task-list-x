@@ -25,15 +25,12 @@ struct TaskDetailsView: View {
 						Text(task.createdAt.formatted(date: .long, time: .shortened))
 					} label: {
 						Text("Created at: ")
-					}
-					.font(.subheadline)
+					}.font(.subheadline)
 					LabeledContent {
 						Text(task.modifiedAt.formatted(date: .long, time: .shortened))
 					} label: {
 						Text("Modified at: ")
-					}
-					.font(.subheadline)
-					.padding(.bottom, 4)
+					}.font(.subheadline).padding(.bottom, 4)
 					LabeledContent {
 						Text(
 							Helper

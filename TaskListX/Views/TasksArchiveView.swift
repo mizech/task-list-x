@@ -64,8 +64,7 @@ struct TasksArchiveView: View {
 								.foregroundStyle(.white)
 								.fontWeight(.bold)
 								.clipShape(RoundedRectangle(cornerRadius: 8))
-						}
-
+						}.buttonStyle(.borderless)
 					}
 				}
 				.onDelete { indexSet in

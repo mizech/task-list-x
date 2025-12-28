@@ -9,7 +9,7 @@ private extension Collection {
 
 struct TasksView: View {
 	@Environment(\.modelContext) private var context
-	@Query private var tasks: [Task]
+	@Query(sort: [SortDescriptor(\Task.project?.title), SortDescriptor(\Task.title)]) private var tasks: [Task]
 		
 	@State private var isCreateSheetShown = false
 	@State private var searchText = ""
