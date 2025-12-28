@@ -9,7 +9,7 @@ private extension Collection {
 
 struct TasksView: View {
 	@Environment(\.modelContext) private var context
-	@Query(sort: [SortDescriptor(\Task.project?.title), SortDescriptor(\Task.title)]) private var tasks: [Task]
+	@Query private var tasks: [Task]
 		
 	@State private var isCreateSheetShown = false
 	@State private var searchText = ""
@@ -38,7 +38,9 @@ struct TasksView: View {
     var body: some View {
 		NavigationStack {
 			List {
-				ForEach(filteredTasks) { task in
+				ForEach(filteredTasks.sorted(by: {
+					$0.title < $1.title
+				})) { task in
 					NavigationLink {
 						TaskDetailsView(task: task)
 					} label: {

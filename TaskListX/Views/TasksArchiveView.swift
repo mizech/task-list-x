@@ -69,7 +69,8 @@ struct TasksArchiveView: View {
 				}
 				.onDelete { indexSet in
 					for index in indexSet {
-						 context.delete(tasks[index])
+						context.delete(filteredTasks[index])
+						filteredTasks.remove(at: index)
 					}
 					
 					do {

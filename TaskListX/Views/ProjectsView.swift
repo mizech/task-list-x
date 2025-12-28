@@ -6,7 +6,7 @@ struct ProjectsView: View {
 	
 	@Query(filter: #Predicate<Project> { project in
 		project.hasBeenDeleted == false
-	}, sort: [SortDescriptor(\Project.title)]) private var projects: [Project]
+	}) private var projects: [Project]
 	
 	@State private var isCreateSheetShown = false
 	@State private var title = ""
@@ -78,6 +78,9 @@ struct ProjectsView: View {
 			} else {
 				filteredProjects = projects
 			}
+		})
+		.onChange(of: filteredProjects, {
+			filteredProjects.sort(using: SortDescriptor(\Project.title))
 		})
 		.onAppear() {
 			filteredProjects = projects
