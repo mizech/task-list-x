@@ -11,22 +11,15 @@
         }
       }
     },
-    "Archived projects" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Archivierte Projekte"
-          }
-        }
-      }
+    "Archiv" : {
+
     },
-    "Archived tasks" : {
+    "Archive" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archivierte Projekte"
+            "value" : "Archiv"
           }
         }
       }
@@ -201,16 +194,6 @@
         }
       }
     },
-    "Projects archive" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Projekte archiviert"
-          }
-        }
-      }
-    },
     "Recreate" : {
       "localizations" : {
         "de" : {
@@ -277,16 +260,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aufgaben"
-          }
-        }
-      }
-    },
-    "Tasks archive" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aufgaben archiviert"
           }
         }
       }

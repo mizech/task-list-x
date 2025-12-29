@@ -1,7 +1,7 @@
 import SwiftData
 import SwiftUI
 
-struct ProjectsArchiveView: View {
+struct ArchiveView: View {
 	@Environment(\.modelContext) var context
 	@Query(filter: #Predicate<Project> { project in
 		project.hasBeenDeleted == true
@@ -85,7 +85,7 @@ struct ProjectsArchiveView: View {
 						.contains(searchText.localizedLowercase)
 				}
 			}
-			.navigationTitle("Archived projects")
+			.navigationTitle("Archiv")
 				.navigationBarTitleDisplayMode(.inline)
 				.listStyle(.plain)
 				.searchable(text: $searchText)
@@ -94,5 +94,5 @@ struct ProjectsArchiveView: View {
 }
 
 #Preview {
-    ProjectsArchiveView()
+    ArchiveView()
 }
