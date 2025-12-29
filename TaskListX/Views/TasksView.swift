@@ -63,11 +63,7 @@ struct TasksView: View {
 					task.title.localizedLowercase.contains(lSearchText)
 							|| task.desc.localizedLowercase.contains(lSearchText)
 				}
-			} else {
-				filteredTasks = tasks
 			}
-			
-			filteredTasks.sorted(using: SortDescriptor(\Task.title))
 		})
 		.sheet(isPresented: $isCreateSheetShown) {
 			TaskFormView()
