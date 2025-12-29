@@ -11,19 +11,6 @@
         }
       }
     },
-    "Archiv" : {
-
-    },
-    "Archive" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Archiv"
-          }
-        }
-      }
-    },
     "Close" : {
       "localizations" : {
         "de" : {
@@ -40,16 +27,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erstellt am:"
-          }
-        }
-      }
-    },
-    "Deleted at: " : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gelöscht am:"
           }
         }
       }
@@ -115,6 +92,7 @@
       }
     },
     "Hello, World!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -194,16 +172,6 @@
         }
       }
     },
-    "Recreate" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wiederherstellen"
-          }
-        }
-      }
-    },
     "Selected" : {
       "localizations" : {
         "de" : {
@@ -213,6 +181,12 @@
           }
         }
       }
+    },
+    "Settings" : {
+
+    },
+    "Show tasks allocated to" : {
+
     },
     "Status" : {
       "localizations" : {

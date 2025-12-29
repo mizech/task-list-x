@@ -1,9 +1,59 @@
+import SwiftData
 import SwiftUI
 
 struct SettingsView: View {
+	@AppStorage(APKeys.projectID.rawValue) var projectID: String = ""
+	@Query() var projects: [Project]
+	
+	@State var project: Project? = nil
+	@State var feasibleProjectSelections = [FeasibleProjectSelection]()
+	
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+		NavigationStack {
+			Form {
+				Section("Show tasks allocated to") {
+					if projects.count > 0 {
+						Picker("Project", selection: $project) {
+							ForEach(
+								feasibleProjectSelections,
+								id: \.self
+							) { feasibleSelection in
+								Text(feasibleSelection.title)
+									.tag(feasibleSelection.project)
+							}
+						}.pickerStyle(.menu)
+						Text(project?.title ?? "")
+					}
+				}
+			}.navigationTitle("Settings")
+				.navigationBarTitleDisplayMode(.inline)
+		}.onAppear() {
+			if projects.count > 0 {
+				feasibleProjectSelections
+					.append(
+						FeasibleProjectSelection(
+							title: "None",
+							project: nil
+						)
+					)
+				projects.forEach { project in
+					feasibleProjectSelections
+						.append(
+							FeasibleProjectSelection(
+								title: project.title,
+								project: project
+							)
+						)
+				}
+			}
+		}.onChange(of: project) {
+			if let project {
+				projectID = project.id
+			} else {
+				projectID = ""
+			}
+		}
+	}
 }
 
 #Preview {

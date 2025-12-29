@@ -5,9 +5,7 @@ struct TaskFormView: View {
 	@Environment(\.modelContext) var context
 	@Environment(\.dismiss) var dismiss
 	
-	@Query(filter: #Predicate<Project> { project in
-		project.hasBeenDeleted == false
-	}) var projects: [Project]
+	@Query() var projects: [Project]
 	
 	@State var title = ""
 	@State var desc = ""
@@ -24,6 +22,7 @@ struct TaskFormView: View {
 					LabeledContent {
 						TextField("Title", text: $title)
 							.textFieldStyle(.roundedBorder)
+							.autocorrectionDisabled(true)
 					} label: {
 						Text("Title")
 					}
@@ -57,7 +56,6 @@ struct TaskFormView: View {
 						}.pickerStyle(.menu)
 						Text(project?.title ?? "")
 					}
-					
 				}
 				
 				Section {

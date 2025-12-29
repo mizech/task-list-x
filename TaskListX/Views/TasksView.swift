@@ -3,6 +3,8 @@ import SwiftUI
 
 struct TasksView: View {
 	@Environment(\.modelContext) private var context
+	@AppStorage(APKeys.projectID.rawValue) var projectID: String = ""
+	
 	@Query() private var tasks: [Task]
 	
 	@State private var isCreateSheetShown = false
@@ -10,64 +12,61 @@ struct TasksView: View {
 	@State private var needsRefresh = false
 	
 	@State private var filteredTasks = [Task]()
+
+	private var listView: some View {
+		List {
+			ForEach(filteredTasks, id: \.id) { task in
+				NavigationLink {
+					TaskDetailsView(task: task, needsRefresh: $needsRefresh)
+				} label: {
+					VStack(alignment: .leading) {
+						Text(task.title)
+							.fontWeight(.bold)
+						if let project = task.project {
+							Text(project.title)
+						}
+					}
+					.strikethrough(task.isDeleted)
+				}
+			}
+			.onDelete { indexSet in
+				for index in indexSet {
+					let task = filteredTasks[index]
+					task.modifiedAt = Date.now
+					task.project = nil
+					context.delete(task)
+				}
+				do {
+					try context.save()
+				} catch {
+					print(error)
+				}
+				setFilteredTasks()
+			}
+		}
+		.listStyle(.plain)
+	}
 	
 	var body: some View {
 		NavigationStack {
-			List {
-				ForEach(filteredTasks) { task in
-					NavigationLink {
-						TaskDetailsView(task: task, needsRefresh: $needsRefresh)
-					} label: {
-						VStack(alignment: .leading) {
-							Text(task.title)
-								.fontWeight(.bold)
-							if let project = task.project {
-								Text(project.title)
-							}
-						}.strikethrough(task.isDeleted == true)
-					}
-				}
-				.onDelete { indexSet in
-					for index in indexSet {
-						tasks[index].hasBeenDeleted = true
-						tasks[index].modifiedAt = Date.now
-						tasks[index].project = nil
-						
-						do {
-							try context.save()
-						} catch {
-							print(error)
+			listView
+				.toolbar(content: {
+					ToolbarItem(placement: .topBarTrailing) {
+						Button {
+							isCreateSheetShown.toggle()
+						} label: {
+							Label("Add", systemImage: "plus")
 						}
 					}
-				}
-			}
-			.listStyle(.plain)
-			.toolbar(content: {
-				ToolbarItem(placement: .topBarTrailing) {
-					Button {
-						isCreateSheetShown.toggle()
-					} label: {
-						Label("Add", systemImage: "plus")
-					}
-				}
-			})
-			.navigationTitle("Tasks")
-			.navigationBarTitleDisplayMode(.inline)
+				})
+				.navigationTitle("Tasks")
+				.navigationBarTitleDisplayMode(.inline)
 		}
 		.searchable(text: $searchText)
-		.onChange(of: searchText, {
-			if searchText.isEmpty == false {
-				let lSearchText = searchText.localizedLowercase
-				
-				filteredTasks = filteredTasks.filter { task in
-					task.title.localizedLowercase.contains(lSearchText)
-							|| task.desc.localizedLowercase.contains(lSearchText)
-				}
-			}
-		})
 		.sheet(isPresented: $isCreateSheetShown) {
 			TaskFormView()
-		}.onAppear() {
+		}
+		.onAppear {
 			setFilteredTasks()
 		}
 		.onChange(of: tasks) {
@@ -76,14 +75,30 @@ struct TasksView: View {
 		.onChange(of: needsRefresh) {
 			setFilteredTasks()
 		}
+		.onChange(of: searchText) {
+			setFilteredTasks()
+		}
 	}
 	
 	func setFilteredTasks() {
-		filteredTasks = tasks
-		filteredTasks = filteredTasks.filter { task in
-			task.hasBeenDeleted == false && task.status != Status.done.rawValue
+		var result = tasks
+		
+		if projectID.isEmpty == false {
+			result = result.filter { task in
+				print("\(task.project?.id) \(projectID)")
+				return task.project?.id == projectID
+			}
 		}
-		filteredTasks.sort(using: SortDescriptor(\Task.title))
+		
+		let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+		if !query.isEmpty {
+			let lq = query.localizedLowercase
+			result = result.filter { task in
+				task.title.localizedLowercase.contains(lq) || task.desc.localizedLowercase.contains(lq)
+			}
+		}
+		result.sort(using: SortDescriptor(\Task.title))
+		filteredTasks = result
 	}
 }
 

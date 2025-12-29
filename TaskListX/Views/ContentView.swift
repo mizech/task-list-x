@@ -3,7 +3,7 @@ import SwiftUI
 enum Views {
 	case projects
 	case tasks
-	case archive
+	case settings
 }
 
 struct ContentView: View {
@@ -24,10 +24,10 @@ struct ContentView: View {
 			}.tag(Views.tasks)
 			
 			VStack  {
-				ArchiveView()
+				SettingsView()
 			}.tabItem {
-				Label("Archive", systemImage: "archivebox")
-			}.tag(Views.archive)
+				Label("Settings", systemImage: "gear")
+			}.tag(Views.settings)
 		}
     }
 }
