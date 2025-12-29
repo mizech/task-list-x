@@ -139,6 +139,8 @@ extension TaskFormView {
 }
 
 #Preview {
-	TaskFormView()
+	TaskFormView(
+		task: Task(title: "", desc: "", status: Status.done.rawValue, project: nil)
+	)
 }
 

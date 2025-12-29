@@ -34,6 +34,7 @@ struct ProjectsView: View {
 				}.onDelete { indexSet in
 					for index in indexSet {
 						projects[index].hasBeenDeleted = true
+						projects[index].modifiedAt = Date.now
 						projects[index].tasks.forEach { task in
 							task.project = nil
 						}
@@ -43,12 +44,6 @@ struct ProjectsView: View {
 						} catch {
 							print(error)
 						}
-					}
-					do {
-						try context.save()
-					} catch {
-						print("ModelContext save, after deletion failed.")
-						print(error)
 					}
 				}
 			}
@@ -68,19 +63,19 @@ struct ProjectsView: View {
 		}
 		.searchable(text: $searchText)
 		.onChange(
-of: searchText,
- {
-			if searchText.isEmpty == false {
-				let lSearchText = searchText.localizedLowercase
-				filteredProjects = projects.filter { project in
-					project.title.localizedLowercase.contains(lSearchText)
+			of: searchText,
+			{
+				if searchText.isEmpty == false {
+					let lSearchText = searchText.localizedLowercase
+					filteredProjects = projects.filter { project in
+						project.title.localizedLowercase.contains(lSearchText)
 						|| project.desc.localizedLowercase.contains(lSearchText)
+					}
+				} else {
+					filteredProjects = projects
 				}
-			} else {
-				filteredProjects = projects
-			}
-			filteredProjects.sorted(using: SortDescriptor(\Project.title))
-		})
+				filteredProjects.sorted(using: SortDescriptor(\Project.title))
+			})
 		.onAppear() {
 			setFilteredProjects()
 		}
@@ -91,8 +86,8 @@ of: searchText,
 			ProjectFormView() { title, desc in
 				let newProject = Project(
 					title: title,
-					   desc: desc
-				   )
+					desc: desc
+				)
 				context.insert(newProject)
 				
 				do {

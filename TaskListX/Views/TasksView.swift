@@ -1,38 +1,22 @@
 import SwiftData
 import SwiftUI
 
-private extension Collection {
-    subscript(safe index: Index) -> Element? {
-        indices.contains(index) ? self[index] : nil
-    }
-}
-
 struct TasksView: View {
 	@Environment(\.modelContext) private var context
-	@Query private var tasks: [Task]
-		
+	@Query() private var tasks: [Task]
+	
 	@State private var isCreateSheetShown = false
 	@State private var searchText = ""
+	@State private var needsRefresh = false
 	
 	@State private var filteredTasks = [Task]()
 	
-	init() {
-		let done = Status.done.rawValue
-		let filter: Predicate<Task> = #Predicate { task in
-			task.status != done && task.hasBeenDeleted == false
-		}
-		
-		_tasks = Query(filter: filter, sort: [SortDescriptor(\.modifiedAt, order: .reverse)])
-	}
-	
-    var body: some View {
+	var body: some View {
 		NavigationStack {
 			List {
-				ForEach(filteredTasks.sorted(by: {
-					$0.title < $1.title
-				})) { task in
+				ForEach(filteredTasks) { task in
 					NavigationLink {
-						TaskDetailsView(task: task)
+						TaskDetailsView(task: task, needsRefresh: $needsRefresh)
 					} label: {
 						VStack(alignment: .leading) {
 							Text(task.title)
@@ -44,12 +28,10 @@ struct TasksView: View {
 					}
 				}
 				.onDelete { indexSet in
-					let itemsToDelete = indexSet.compactMap { filteredTasks[safe: $0] }
-					for (index, item) in itemsToDelete.enumerated() {
-						var task = item
-						task.hasBeenDeleted = true
-						task.modifiedAt = Date.now
-						task.project = nil
+					for index in indexSet {
+						tasks[index].hasBeenDeleted = true
+						tasks[index].modifiedAt = Date.now
+						tasks[index].project = nil
 						
 						do {
 							try context.save()
@@ -73,23 +55,40 @@ struct TasksView: View {
 			.navigationBarTitleDisplayMode(.inline)
 		}
 		.searchable(text: $searchText)
+		.onChange(of: searchText, {
+			if searchText.isEmpty == false {
+				let lSearchText = searchText.localizedLowercase
+				
+				filteredTasks = filteredTasks.filter { task in
+					task.title.localizedLowercase.contains(lSearchText)
+							|| task.desc.localizedLowercase.contains(lSearchText)
+				}
+			} else {
+				filteredTasks = tasks
+			}
+			
+			filteredTasks.sorted(using: SortDescriptor(\Task.title))
+		})
 		.sheet(isPresented: $isCreateSheetShown) {
 			TaskFormView()
 		}.onAppear() {
-			let base = tasks
-			let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-			guard query.isEmpty == false else {
-				filteredTasks = base
-				return
-			}
-			filteredTasks = base.filter { task in
-				if task.title.localizedCaseInsensitiveContains(query) { return true }
-				if task.desc.localizedCaseInsensitiveContains(query) { return true }
-				if let project = task.project, project.title.localizedCaseInsensitiveContains(query) { return true }
-				return false
-			}
+			setFilteredTasks()
 		}
-    }
+		.onChange(of: tasks) {
+			setFilteredTasks()
+		}
+		.onChange(of: needsRefresh) {
+			setFilteredTasks()
+		}
+	}
+	
+	func setFilteredTasks() {
+		filteredTasks = tasks
+		filteredTasks = filteredTasks.filter { task in
+			task.hasBeenDeleted == false && task.status != Status.done.rawValue
+		}
+		filteredTasks.sort(using: SortDescriptor(\Task.title))
+	}
 }
 
 #Preview {
