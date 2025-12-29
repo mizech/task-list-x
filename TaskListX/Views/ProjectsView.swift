@@ -3,6 +3,7 @@ import SwiftUI
 
 struct ProjectsView: View {
 	@Environment(\.modelContext) private var context
+	
 	@Query(filter: #Predicate<Project> { project in
 		project.hasBeenDeleted == false
 	}) private var projects: [Project]
@@ -33,6 +34,7 @@ struct ProjectsView: View {
 				}.onDelete { indexSet in
 					for index in indexSet {
 						projects[index].hasBeenDeleted = true
+						projects[index].modifiedAt = Date.now
 						projects[index].tasks.forEach { task in
 							task.project = nil
 						}
@@ -42,13 +44,6 @@ struct ProjectsView: View {
 						} catch {
 							print(error)
 						}
-						filteredProjects = projects
-					}
-					do {
-						try context.save()
-					} catch {
-						print("ModelContext save, after deletion failed.")
-						print(error)
 					}
 				}
 			}
@@ -67,29 +62,36 @@ struct ProjectsView: View {
 			.navigationBarTitleDisplayMode(.inline)
 		}
 		.searchable(text: $searchText)
-		.onChange(of: searchText, {
-			if searchText.isEmpty == false {
-				filteredProjects = projects.filter { project in
-					project.title.contains(searchText)
+		.onChange(
+			of: searchText,
+			{
+				if searchText.isEmpty == false {
+					let lSearchText = searchText.localizedLowercase
+					filteredProjects = projects.filter { project in
+						project.title.localizedLowercase.contains(lSearchText)
+						|| project.desc.localizedLowercase.contains(lSearchText)
+					}
+				} else {
+					filteredProjects = projects
 				}
-			} else {
-				filteredProjects = projects
-			}
-		})
+				filteredProjects.sorted(using: SortDescriptor(\Project.title))
+			})
 		.onAppear() {
-			filteredProjects = projects
+			setFilteredProjects()
 		}
+		.onChange(of: projects, {
+			setFilteredProjects()
+		})
 		.sheet(isPresented: $isCreateSheetShown) {
 			ProjectFormView() { title, desc in
 				let newProject = Project(
 					title: title,
-					   desc: desc
-				   )
+					desc: desc
+				)
 				context.insert(newProject)
 				
 				do {
 					try context.save()
-					filteredProjects = projects
 				} catch {
 					print("context.save() -> Failed")
 					print(error)
@@ -97,6 +99,11 @@ struct ProjectsView: View {
 				isCreateSheetShown.toggle()
 			}
 		}
+	}
+	
+	func setFilteredProjects() {
+		filteredProjects = projects
+		filteredProjects.sort(using: SortDescriptor(\Project.title))
 	}
 }
 

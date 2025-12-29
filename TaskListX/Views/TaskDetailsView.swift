@@ -3,6 +3,7 @@ import SwiftUI
 struct TaskDetailsView: View {
 	@Environment(\.modelContext) var context
 	@Bindable var task: Task
+	@Binding var needsRefresh: Bool
 	
 	@State private var isEditSheetShown = false
 	
@@ -25,17 +26,19 @@ struct TaskDetailsView: View {
 						Text(task.createdAt.formatted(date: .long, time: .shortened))
 					} label: {
 						Text("Created at: ")
-					}
-						.font(.subheadline)
+					}.font(.subheadline)
 					LabeledContent {
 						Text(task.modifiedAt.formatted(date: .long, time: .shortened))
 					} label: {
 						Text("Modified at: ")
-					}
-						.font(.subheadline)
-						.padding(.bottom, 4)
+					}.font(.subheadline).padding(.bottom, 4)
 					LabeledContent {
-						Text(task.status)
+						Text(
+							Helper
+								.decideLocalizedTextFrom(
+									statusValue: task.status
+								)
+						)
 					} label: {
 						Text("Status: ")
 					}
@@ -62,6 +65,11 @@ struct TaskDetailsView: View {
 				.sheet(isPresented: $isEditSheetShown) {
 					TaskFormView(task: task)
 				}
+				.onChange(of: isEditSheetShown) {
+					if isEditSheetShown == false {
+						needsRefresh.toggle()
+					}
+				}
 		}
 	}
 }
@@ -76,6 +84,6 @@ struct TaskDetailsView: View {
 				title: "Project_Title",
 				desc: "-"
 			)
-		)
+		), needsRefresh: .constant(false)
 	)
 }

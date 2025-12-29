@@ -7,6 +7,9 @@ struct TasksArchiveView: View {
 	
 	let dateFormatter = DateFormatter()
 	
+	@State var searchText = ""
+	@State var filteredTasks = [Task]()
+	
 	init() {
 		let isDone = Status.done.rawValue
 		let filter = #Predicate<Task> { task in
@@ -21,7 +24,7 @@ struct TasksArchiveView: View {
 	var body: some View {
 		NavigationStack {
 			List {
-				ForEach(tasks, id: \.self) { task in
+				ForEach(filteredTasks, id: \.self) { task in
 					VStack(alignment: .leading) {
 						VStack {
 							Text(task.title)
@@ -52,6 +55,7 @@ struct TasksArchiveView: View {
 							} catch {
 								print(error)
 							}
+							filteredTasks = tasks
 						} label: {
 							Label("Recreate", systemImage: 	"trash")
 								.frame(height: 40)
@@ -60,25 +64,42 @@ struct TasksArchiveView: View {
 								.foregroundStyle(.white)
 								.fontWeight(.bold)
 								.clipShape(RoundedRectangle(cornerRadius: 8))
-						}
-
+						}.buttonStyle(.borderless)
 					}
 				}
 				.onDelete { indexSet in
 					for index in indexSet {
-						 context.delete(tasks[index])
-					}
-					
-					do {
-						try context.save()
-					} catch {
-						print("Archive View: Delete failed.")
-						print(error)
+						context.delete(tasks[index])
+						
+						do {
+							try context.save()
+						} catch {
+							print("Archive View: Delete failed.")
+							print(error)
+						}
 					}
 				}
 			}.listStyle(.plain)
 				.navigationTitle("Archived tasks")
 				.navigationBarTitleDisplayMode(.inline)
+				.searchable(text: $searchText)
+				.onChange(of: searchText) {
+					guard searchText.isEmpty == false else {
+						filteredTasks = tasks
+						return
+					}
+					
+					filteredTasks = tasks.filter { task in
+						(
+							task.hasBeenDeleted == true || task.status == Status.done.rawValue
+						) && task.title.localizedLowercase.contains(
+							searchText.localizedLowercase
+						)
+					}
+				}
+				.onAppear() {
+					filteredTasks = tasks
+				}
 		}
 	}
 }

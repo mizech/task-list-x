@@ -17,7 +17,7 @@ struct TaskFormView: View {
 	
 	var task: Task? = nil
 	
-    var body: some View {
+	var body: some View {
 		NavigationStack {
 			Form {
 				Section("Task") {
@@ -36,16 +36,17 @@ struct TaskFormView: View {
 					}
 					Picker("Status", selection: $status) {
 						ForEach(Status.allCases, id: \.self) { status in
-							Text(status.rawValue).tag(status.rawValue)
+							Text(Helper.decideTextFrom(status: status))
+								.tag(status.rawValue)
 						}
 					}
 					LabeledContent {
-						Text(status)
+						Text(Helper.decideLocalizedTextFrom(statusValue: status))
 					} label: {
 						Text("Selected")
 					}
 					if projects.count > 0 {
-						Picker("Allocation", selection: $project) {
+						Picker("Project Allocation", selection: $project) {
 							ForEach(
 								feasibleProjectSelections,
 								id: \.self
@@ -83,7 +84,7 @@ struct TaskFormView: View {
 						}
 						dismiss()
 					} label: {
-						 Text("Submit")
+						Text("Submit")
 							.frame(height: 40)
 							.frame(maxWidth: .infinity)
 							.background(.blue)
@@ -128,7 +129,7 @@ struct TaskFormView: View {
 				}
 			}
 		}
-    }
+	}
 }
 
 extension TaskFormView {
@@ -138,6 +139,8 @@ extension TaskFormView {
 }
 
 #Preview {
-	TaskFormView()
+	TaskFormView(
+		task: Task(title: "", desc: "", status: Status.done.rawValue, project: nil)
+	)
 }
 
