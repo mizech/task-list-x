@@ -14,17 +14,7 @@ struct TasksView: View {
 	@State private var isCreateSheetShown = false
 	@State private var searchText = ""
 	
-	private var filteredTasks: [Task] {
-		let base = tasks
-		let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-		guard query.isEmpty == false else { return base }
-		return base.filter { task in
-			if task.title.localizedCaseInsensitiveContains(query) { return true }
-			if task.desc.localizedCaseInsensitiveContains(query) { return true }
-			if let project = task.project, project.title.localizedCaseInsensitiveContains(query) { return true }
-			return false
-		}
-	}
+	@State private var filteredTasks = [Task]()
 	
 	init() {
 		let done = Status.done.rawValue
@@ -55,7 +45,7 @@ struct TasksView: View {
 				}
 				.onDelete { indexSet in
 					let itemsToDelete = indexSet.compactMap { filteredTasks[safe: $0] }
-					for item in itemsToDelete {
+					for (index, item) in itemsToDelete.enumerated() {
 						var task = item
 						task.hasBeenDeleted = true
 						task.modifiedAt = Date.now
@@ -85,6 +75,19 @@ struct TasksView: View {
 		.searchable(text: $searchText)
 		.sheet(isPresented: $isCreateSheetShown) {
 			TaskFormView()
+		}.onAppear() {
+			let base = tasks
+			let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+			guard query.isEmpty == false else {
+				filteredTasks = base
+				return
+			}
+			filteredTasks = base.filter { task in
+				if task.title.localizedCaseInsensitiveContains(query) { return true }
+				if task.desc.localizedCaseInsensitiveContains(query) { return true }
+				if let project = task.project, project.title.localizedCaseInsensitiveContains(query) { return true }
+				return false
+			}
 		}
     }
 }
@@ -92,3 +95,4 @@ struct TasksView: View {
 #Preview {
 	TasksView()
 }
+

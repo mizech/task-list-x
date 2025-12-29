@@ -43,7 +43,6 @@ struct ProjectsView: View {
 						} catch {
 							print(error)
 						}
-						filteredProjects = projects
 					}
 					do {
 						try context.save()
@@ -70,7 +69,6 @@ struct ProjectsView: View {
 		.searchable(text: $searchText)
 		.onChange(of: searchText, {
 			if searchText.isEmpty == false {
-				print("\(searchText)")
 				filteredProjects = projects.filter { project in
 					project.title.localizedLowercase
 						.contains(searchText.localizedLowercase)
@@ -78,13 +76,14 @@ struct ProjectsView: View {
 			} else {
 				filteredProjects = projects
 			}
-		})
-		.onChange(of: filteredProjects, {
-			filteredProjects.sort(using: SortDescriptor(\Project.title))
+			filteredProjects.sorted(using: SortDescriptor(\Project.title))
 		})
 		.onAppear() {
-			filteredProjects = projects
+			setFilteredProjects()
 		}
+		.onChange(of: projects, {
+			setFilteredProjects()
+		})
 		.sheet(isPresented: $isCreateSheetShown) {
 			ProjectFormView() { title, desc in
 				let newProject = Project(
@@ -95,7 +94,6 @@ struct ProjectsView: View {
 				
 				do {
 					try context.save()
-					filteredProjects = projects
 				} catch {
 					print("context.save() -> Failed")
 					print(error)
@@ -103,6 +101,11 @@ struct ProjectsView: View {
 				isCreateSheetShown.toggle()
 			}
 		}
+	}
+	
+	func setFilteredProjects() {
+		filteredProjects = projects
+		filteredProjects.sort(using: SortDescriptor(\Project.title))
 	}
 }
 

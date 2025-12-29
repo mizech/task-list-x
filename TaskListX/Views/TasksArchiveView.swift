@@ -69,15 +69,14 @@ struct TasksArchiveView: View {
 				}
 				.onDelete { indexSet in
 					for index in indexSet {
-						context.delete(filteredTasks[index])
-						filteredTasks.remove(at: index)
-					}
-					
-					do {
-						try context.save()
-					} catch {
-						print("Archive View: Delete failed.")
-						print(error)
+						context.delete(tasks[index])
+						
+						do {
+							try context.save()
+						} catch {
+							print("Archive View: Delete failed.")
+							print(error)
+						}
 					}
 				}
 			}.listStyle(.plain)
