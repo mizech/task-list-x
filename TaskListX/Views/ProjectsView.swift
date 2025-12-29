@@ -73,11 +73,8 @@ of: searchText,
 			if searchText.isEmpty == false {
 				let lSearchText = searchText.localizedLowercase
 				filteredProjects = projects.filter { project in
-					project.title.localizedLowercase
-						.contains(
-							lSearchText
-						) || project.desc.localizedLowercase
-						.contains(lSearchText)
+					project.title.localizedLowercase.contains(lSearchText)
+						|| project.desc.localizedLowercase.contains(lSearchText)
 				}
 			} else {
 				filteredProjects = projects
