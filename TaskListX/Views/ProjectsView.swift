@@ -67,11 +67,17 @@ struct ProjectsView: View {
 			.navigationBarTitleDisplayMode(.inline)
 		}
 		.searchable(text: $searchText)
-		.onChange(of: searchText, {
+		.onChange(
+of: searchText,
+ {
 			if searchText.isEmpty == false {
+				let lSearchText = searchText.localizedLowercase
 				filteredProjects = projects.filter { project in
 					project.title.localizedLowercase
-						.contains(searchText.localizedLowercase)
+						.contains(
+							lSearchText
+						) || project.desc.localizedLowercase
+						.contains(lSearchText)
 				}
 			} else {
 				filteredProjects = projects
