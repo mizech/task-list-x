@@ -324,7 +324,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "01A144E9-220C-4191-A00B-1EA5664BEC84"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TaskListX/Views/TasksView.swift"
@@ -334,36 +334,6 @@
             endingLineNumber = "77"
             landmarkName = "body"
             landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "01A144E9-220C-4191-A00B-1EA5664BEC84 - 3573ea28adf9346f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #5 () -&gt; () in TaskListX.TasksView.body.getter : some"
-                  moduleName = "TaskListX.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/michael/Documents/Dokumente%20-%20MacBook%20Air%20von%20Michael/iOS-Prog/TaskListX/TaskListX/Views/TasksView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "77"
-                  endingLineNumber = "77">
-               </Location>
-               <Location
-                  uuid = "01A144E9-220C-4191-A00B-1EA5664BEC84 - 5890e3792ffceb70"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #6 () -&gt; () in TaskListX.TasksView.body.getter : some"
-                  moduleName = "TaskListX.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/michael/Documents/Dokumente%20-%20MacBook%20Air%20von%20Michael/iOS-Prog/TaskListX/TaskListX/Views/TasksView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "77"
-                  endingLineNumber = "77">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
