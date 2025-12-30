@@ -46,8 +46,13 @@ struct SettingsView: View {
 							)
 						)
 				}
-				
 				feasibleProjectSelections.sort()
+			}
+			
+			if projectID.isEmpty == false {
+				project = projects.first(where: { project in
+					project.id == projectID
+				})
 			}
 		}.onChange(of: project) {
 			if let project {
