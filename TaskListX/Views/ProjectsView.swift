@@ -31,10 +31,14 @@ struct ProjectsView: View {
 					}
 				}.onDelete { indexSet in
 					for index in indexSet {
-						projects[index].modifiedAt = Date.now
-						projects[index].tasks.forEach { task in
+						let currProject = filteredProjects[index]
+						currProject.modifiedAt = Date.now
+						currProject.tasks.forEach { task in
 							task.project = nil
 						}
+			
+						context.delete(currProject)
+						filteredProjects.remove(at: index)
 						
 						do {
 							try context.save()

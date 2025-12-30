@@ -11,7 +11,7 @@ struct SettingsView: View {
     var body: some View {
 		NavigationStack {
 			Form {
-				Section("Show tasks allocated to") {
+				Section("Show only tasks allocated to") {
 					if projects.count > 0 {
 						Picker("Project", selection: $project) {
 							ForEach(
@@ -22,7 +22,6 @@ struct SettingsView: View {
 									.tag(feasibleSelection.project)
 							}
 						}.pickerStyle(.menu)
-						Text(project?.title ?? "")
 					}
 				}
 			}.navigationTitle("Settings")
@@ -32,7 +31,7 @@ struct SettingsView: View {
 				feasibleProjectSelections
 					.append(
 						FeasibleProjectSelection(
-							title: "None",
+							title: "* ",
 							project: nil
 						)
 					)
