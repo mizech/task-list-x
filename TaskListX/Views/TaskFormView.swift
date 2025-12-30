@@ -12,6 +12,7 @@ struct TaskFormView: View {
 	@State var project: Project? = nil
 	@State var status = Status.open.rawValue
 	@State var feasibleProjectSelections = [FeasibleProjectSelection]()
+	@State var areDataValid = false
 	
 	var task: Task? = nil
 	
@@ -20,14 +21,14 @@ struct TaskFormView: View {
 			Form {
 				Section("Task") {
 					LabeledContent {
-						TextField("Title", text: $title)
+						TextField("Title (mandatory)", text: $title)
 							.textFieldStyle(.roundedBorder)
 							.autocorrectionDisabled(true)
 					} label: {
 						Text("Title")
 					}
 					LabeledContent {
-						TextField("Description", text: $desc)
+						TextField("Description (optional)", text: $desc)
 							.textFieldStyle(.roundedBorder)
 							.autocorrectionDisabled(true)
 					} label: {
@@ -58,36 +59,38 @@ struct TaskFormView: View {
 					}
 				}
 				
-				Section {
-					Button {
-						if let task = self.task {
-							task.title = title
-							task.desc = desc
-							task.project = project
-							task.status = status
-						} else {
-							let task = Task(
-								title: title,
-								desc: desc,
-								status: status,
-								project: project
-							)
-							context.insert(task)
+				if title.count > 0 {
+					Section {
+						Button {
+							if let task = self.task {
+								task.title = title
+								task.desc = desc
+								task.project = project
+								task.status = status
+							} else {
+								let task = Task(
+									title: title,
+									desc: desc,
+									status: status,
+									project: project
+								)
+								context.insert(task)
+							}
+							
+							do {
+								try context.save()
+							} catch {
+								print(error)
+							}
+							dismiss()
+						} label: {
+							Text("Submit")
+								.frame(height: 40)
+								.frame(maxWidth: .infinity)
+								.background(.blue)
+								.foregroundStyle(.white)
+								.clipShape(RoundedRectangle(cornerRadius: 12))
 						}
-						
-						do {
-							try context.save()
-						} catch {
-							print(error)
-						}
-						dismiss()
-					} label: {
-						Text("Submit")
-							.frame(height: 40)
-							.frame(maxWidth: .infinity)
-							.background(.blue)
-							.foregroundStyle(.white)
-							.clipShape(RoundedRectangle(cornerRadius: 12))
 					}
 				}
 			}

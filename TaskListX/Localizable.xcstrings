@@ -32,6 +32,7 @@
       }
     },
     "Describe your project" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -50,6 +51,9 @@
           }
         }
       }
+    },
+    "Description (optional)" : {
+
     },
     "Description: " : {
       "localizations" : {
@@ -82,6 +86,7 @@
       }
     },
     "Enter a title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -239,6 +244,9 @@
       }
     },
     "Title" : {
+
+    },
+    "Title (mandatory)" : {
 
     }
   },

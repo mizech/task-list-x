@@ -14,29 +14,30 @@ struct ProjectFormView: View {
 			Form {
 				Section("Project") {
 					LabeledContent {
-						TextField("Enter a title", text: $title)
+						TextField("Title (mandatory)", text: $title)
 							.textFieldStyle(.roundedBorder)
 					} label: {
 						Text("Title")
 					}
 					LabeledContent {
-						TextField("Describe your project", text: $description)
+						TextField("Description (optional)", text: $description)
 							.textFieldStyle(.roundedBorder)
 					} label: {
 						Text("Description")
 					}
 				}
-				
-				Section {
-					Button {
-						action(title, description)
-					} label: {
-						Text("Submit")
-							.frame(height: 40)
-							.frame(maxWidth: .infinity)
-							.background(.blue)
-							.foregroundStyle(.white)
-							.clipShape(RoundedRectangle(cornerRadius: 12))
+				if title.count > 0 {
+					Section {
+						Button {
+							action(title, description)
+						} label: {
+							Text("Submit")
+								.frame(height: 40)
+								.frame(maxWidth: .infinity)
+								.background(.blue)
+								.foregroundStyle(.white)
+								.clipShape(RoundedRectangle(cornerRadius: 12))
+						}
 					}
 				}
 			}.toolbar(content: {
