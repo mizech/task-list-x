@@ -28,6 +28,8 @@ struct SettingsView: View {
 				.navigationBarTitleDisplayMode(.inline)
 		}.onAppear() {
 			if projects.count > 0 {
+				feasibleProjectSelections.removeAll()
+				
 				feasibleProjectSelections
 					.append(
 						FeasibleProjectSelection(
@@ -44,6 +46,8 @@ struct SettingsView: View {
 							)
 						)
 				}
+				
+				feasibleProjectSelections.sort()
 			}
 		}.onChange(of: project) {
 			if let project {
