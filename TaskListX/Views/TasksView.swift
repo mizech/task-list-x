@@ -3,7 +3,10 @@ import SwiftUI
 
 struct TasksView: View {
 	@Environment(\.modelContext) private var context
-	@AppStorage(APKeys.projectID.rawValue) var projectID: String = ""
+	@AppStorage(AppStorageKeyValues.projectID.rawValue) var projectID: String = ""
+	@AppStorage(AppStorageKeyValues.showStatusOpen.rawValue) var showStatusOpen = true
+	@AppStorage(AppStorageKeyValues.showStatusInWork.rawValue) var showStatusInWork = true
+	@AppStorage(AppStorageKeyValues.showStatusDone.rawValue) var showStatusDone = true
 	
 	@Query() private var tasks: [Task]
 	
@@ -12,7 +15,7 @@ struct TasksView: View {
 	@State private var needsRefresh = false
 	
 	@State private var filteredTasks = [Task]()
-
+	
 	private var listView: some View {
 		List {
 			ForEach(filteredTasks, id: \.id) { task in
@@ -85,8 +88,25 @@ struct TasksView: View {
 		
 		if projectID.isEmpty == false {
 			result = result.filter { task in
-				print("\(task.project?.id) \(projectID)")
 				return task.project?.id == projectID
+			}
+		}
+		
+		if showStatusOpen == false {
+			result = result.filter { task in
+				task.status != Status.open.rawValue
+			}
+		}
+		
+		if showStatusInWork == false {
+			result = result.filter { task in
+				task.status != Status.inWork.rawValue
+			}
+		}
+		
+		if showStatusDone == false {
+			result = result.filter { task in
+				task.status != Status.done.rawValue
 			}
 		}
 		

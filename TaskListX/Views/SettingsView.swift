@@ -2,13 +2,24 @@ import SwiftData
 import SwiftUI
 
 struct SettingsView: View {
-	@AppStorage(APKeys.projectID.rawValue) var projectID: String = ""
+	@AppStorage(AppStorageKeyValues.projectID.rawValue) var projectID: String = ""
+	@AppStorage(
+		AppStorageKeyValues.showStatusOpen.rawValue
+	) var showStatusOpen = true
+	@AppStorage(
+		AppStorageKeyValues.showStatusInWork.rawValue
+	) var showStatusInWork = true
+	@AppStorage(AppStorageKeyValues.showStatusDone.rawValue) var showStatusDone = true
+	
 	@Query() var projects: [Project]
 	
 	@State var project: Project? = nil
+	@State var isStatusOpenSelected = true
+	@State var isStatusInWorkSelected = true
+	@State var isStatusDoneSelected = true
 	@State var feasibleProjectSelections = [FeasibleProjectSelection]()
 	
-    var body: some View {
+	var body: some View {
 		NavigationStack {
 			Form {
 				Section("Show only tasks allocated to") {
@@ -24,9 +35,18 @@ struct SettingsView: View {
 						}.pickerStyle(.menu)
 					}
 				}
+				Section("Show tasks with status") {
+					Toggle("Open", isOn: $isStatusOpenSelected)
+					Toggle("In work", isOn: $isStatusInWorkSelected)
+					Toggle("Done", isOn: $isStatusDoneSelected)
+				}
 			}.navigationTitle("Settings")
 				.navigationBarTitleDisplayMode(.inline)
 		}.onAppear() {
+			isStatusOpenSelected = showStatusOpen
+			isStatusInWorkSelected = showStatusInWork
+			isStatusDoneSelected = showStatusDone
+			
 			if projects.count > 0 {
 				feasibleProjectSelections.removeAll()
 				
@@ -60,10 +80,16 @@ struct SettingsView: View {
 			} else {
 				projectID = ""
 			}
+		}.onChange(of: isStatusOpenSelected) {
+			showStatusOpen = isStatusOpenSelected
+		}.onChange(of: isStatusInWorkSelected) {
+			showStatusInWork = isStatusInWorkSelected
+		}.onChange(of: isStatusDoneSelected) {
+			showStatusDone = isStatusDoneSelected
 		}
 	}
 }
 
 #Preview {
-    SettingsView()
+	SettingsView()
 }

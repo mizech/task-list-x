@@ -193,6 +193,9 @@
     "Show only tasks allocated to" : {
 
     },
+    "Show tasks with status" : {
+
+    },
     "Status" : {
       "localizations" : {
         "de" : {
