@@ -19,6 +19,8 @@ struct SettingsView: View {
 	@State var isStatusDoneSelected = true
 	@State var feasibleProjectSelections = [FeasibleProjectSelection]()
 	
+	let emptyProject = Project(title: "", desc: "")
+	
 	var body: some View {
 		NavigationStack {
 			Form {
@@ -57,6 +59,13 @@ struct SettingsView: View {
 							project: nil
 						)
 					)
+				feasibleProjectSelections
+					.append(
+						FeasibleProjectSelection(
+							title: "No project assigned",
+							project: emptyProject
+						)
+					)
 				projects.forEach { project in
 					feasibleProjectSelections
 						.append(
@@ -70,13 +79,21 @@ struct SettingsView: View {
 			}
 			
 			if projectID.isEmpty == false {
-				project = projects.first(where: { project in
-					project.id == projectID
-				})
+				if projectID == AppStorageKeyValues.noProjectAssigned.rawValue {
+					project = emptyProject
+				} else {
+					project = projects.first(where: { project in
+						project.id == projectID
+					})
+				}
 			}
 		}.onChange(of: project) {
 			if let project {
-				projectID = project.id
+				if project.title.isEmpty == false {
+					projectID = project.id
+				} else {
+					projectID = AppStorageKeyValues.noProjectAssigned.rawValue
+				}
 			} else {
 				projectID = ""
 			}

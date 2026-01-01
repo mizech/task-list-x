@@ -87,8 +87,14 @@ struct TasksView: View {
 		var result = tasks
 		
 		if projectID.isEmpty == false {
-			result = result.filter { task in
-				return task.project?.id == projectID
+			if projectID == AppStorageKeyValues.noProjectAssigned.rawValue {
+				result = result.filter { task in
+					return task.project == nil
+				}
+			} else {
+				result = result.filter { task in
+					return task.project?.id == projectID
+				}
 			}
 		}
 		
