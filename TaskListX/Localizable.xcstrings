@@ -11,6 +11,9 @@
         }
       }
     },
+    "Can't find appropriate results." : {
+
+    },
     "Close" : {
       "localizations" : {
         "de" : {
@@ -126,6 +129,9 @@
           }
         }
       }
+    },
+    "No projects available" : {
+
     },
     "Open" : {
       "localizations" : {
@@ -245,6 +251,9 @@
           }
         }
       }
+    },
+    "There are no existing projects." : {
+
     },
     "Title" : {
 

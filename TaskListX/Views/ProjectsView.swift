@@ -15,52 +15,65 @@ struct ProjectsView: View {
 	
 	var body: some View {
 		NavigationStack {
-			List {
-				ForEach(filteredProjects) { project in
-					NavigationLink {
-						ProjectDetailsView(project: project)
-					} label: {
-						VStack(alignment: .leading) {
-							Text(project.title)
-								.bold()
-							Text(project.desc)
-								.lineLimit(2)
-								.autocorrectionDisabled(true)
-								.textInputAutocapitalization(.never)
-						}
-					}
-				}.onDelete { indexSet in
-					for index in indexSet {
-						let currProject = filteredProjects[index]
-						currProject.modifiedAt = Date.now
-						currProject.tasks.forEach { task in
-							task.project = nil
-						}
-			
-						context.delete(currProject)
-						filteredProjects.remove(at: index)
-						
-						do {
-							try context.save()
-						} catch {
-							print(error)
-						}
-					}
-				}
-			}
-			.listStyle(.plain)
-			.toolbar {
-				ToolbarItem(placement: .topBarTrailing) {
-					Button {
-						isCreateSheetShown.toggle()
-					} label: {
-						Label("Add", systemImage: "plus")
-					}
+			VStack {
+				if filteredProjects.count == 0 {
+					ContentUnavailableView(
+						"No projects available",
+						systemImage: "questionmark.app",
+						description: Text(
+							searchText.isEmpty == false 
+								? "Can't find appropriate results."
+								: "There are no existing projects."
+						)
+					)
+				} else {
+					List {
+						ForEach(filteredProjects) { project in
+							NavigationLink {
+								ProjectDetailsView(project: project)
+							} label: {
+								VStack(alignment: .leading) {
+									Text(project.title)
+										.bold()
+									Text(project.desc)
+										.lineLimit(2)
+										.autocorrectionDisabled(true)
+										.textInputAutocapitalization(.never)
+								}
+							}
+						}.onDelete { indexSet in
+							for index in indexSet {
+								let currProject = filteredProjects[index]
+								currProject.modifiedAt = Date.now
+								currProject.tasks.forEach { task in
+									task.project = nil
+								}
 					
+								context.delete(currProject)
+								filteredProjects.remove(at: index)
+								
+								do {
+									try context.save()
+								} catch {
+									print(error)
+								}
+							}
+						}
+					}
+					.listStyle(.plain)
 				}
-			}
-			.navigationTitle("Projects")
-			.navigationBarTitleDisplayMode(.inline)
+			}.toolbar {
+				ToolbarItem(placement: .topBarTrailing) {
+						  Button {
+							  isCreateSheetShown.toggle()
+						  } label: {
+							  Label("Add", systemImage: "plus")
+						  }
+						  
+					  }
+				  }
+				  .navigationTitle("Projects")
+				  .navigationBarTitleDisplayMode(.inline)
 		}
 		.searchable(text: $searchText)
 		.onChange(

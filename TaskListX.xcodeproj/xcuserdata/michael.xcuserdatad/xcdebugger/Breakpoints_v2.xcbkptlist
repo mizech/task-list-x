@@ -186,8 +186,8 @@
             filePath = "TaskListX/Views/ProjectsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -234,8 +234,8 @@
             filePath = "TaskListX/Views/ProjectsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -270,22 +270,6 @@
             endingLineNumber = "89"
             landmarkName = "setFilteredTasks()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "FC76026B-573A-4AF6-BE1F-14677C842791"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TaskListX/Views/ProjectsView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "body"
-            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
