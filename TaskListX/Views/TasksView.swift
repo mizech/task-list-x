@@ -52,18 +52,32 @@ struct TasksView: View {
 	
 	var body: some View {
 		NavigationStack {
-			listView
-				.toolbar(content: {
-					ToolbarItem(placement: .topBarTrailing) {
-						Button {
-							isCreateSheetShown.toggle()
-						} label: {
-							Label("Add", systemImage: "plus")
-						}
-					}
-				})
-				.navigationTitle("Tasks")
-				.navigationBarTitleDisplayMode(.inline)
+			VStack {
+				if filteredTasks.count == 0 {
+					ContentUnavailableView(
+						"No tasks available",
+						systemImage: "questionmark.app",
+						description: Text(
+							searchText.isEmpty == false
+								? "Can't find appropriate results."
+								: "There are no existing tasks."
+						)
+					)
+				} else {
+					listView
+						.toolbar(content: {
+							ToolbarItem(placement: .topBarTrailing) {
+								Button {
+									isCreateSheetShown.toggle()
+								} label: {
+									Label("Add", systemImage: "plus")
+								}
+							}
+						})
+						.navigationTitle("Tasks")
+						.navigationBarTitleDisplayMode(.inline)
+				}
+			}
 		}
 		.searchable(text: $searchText)
 		.sheet(isPresented: $isCreateSheetShown) {

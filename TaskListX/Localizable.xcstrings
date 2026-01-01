@@ -133,6 +133,9 @@
     "No projects available" : {
 
     },
+    "No tasks available" : {
+
+    },
     "Open" : {
       "localizations" : {
         "de" : {
@@ -253,6 +256,9 @@
       }
     },
     "There are no existing projects." : {
+
+    },
+    "There are no existing tasks." : {
 
     },
     "Title" : {
