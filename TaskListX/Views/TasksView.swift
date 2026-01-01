@@ -29,7 +29,7 @@ struct TasksView: View {
 							Text(project.title)
 						}
 					}
-					.strikethrough(task.isDeleted)
+					.strikethrough(task.status == Status.done.rawValue)
 				}
 			}
 			.onDelete { indexSet in
@@ -65,19 +65,18 @@ struct TasksView: View {
 					)
 				} else {
 					listView
-						.toolbar(content: {
-							ToolbarItem(placement: .topBarTrailing) {
-								Button {
-									isCreateSheetShown.toggle()
-								} label: {
-									Label("Add", systemImage: "plus")
-								}
-							}
-						})
-						.navigationTitle("Tasks")
-						.navigationBarTitleDisplayMode(.inline)
 				}
-			}
+			}.toolbar(content: {
+				ToolbarItem(placement: .topBarTrailing) {
+							 Button {
+								 isCreateSheetShown.toggle()
+							 } label: {
+								 Label("Add", systemImage: "plus")
+							 }
+						 }
+					 })
+					 .navigationTitle("Tasks")
+					 .navigationBarTitleDisplayMode(.inline)
 		}
 		.searchable(text: $searchText)
 		.sheet(isPresented: $isCreateSheetShown) {
