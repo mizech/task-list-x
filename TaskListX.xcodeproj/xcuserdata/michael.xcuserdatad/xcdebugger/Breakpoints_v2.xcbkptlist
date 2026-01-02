@@ -186,8 +186,8 @@
             filePath = "TaskListX/Views/ProjectsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -234,8 +234,8 @@
             filePath = "TaskListX/Views/ProjectsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -250,8 +250,8 @@
             filePath = "TaskListX/Views/TasksView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -266,8 +266,8 @@
             filePath = "TaskListX/Views/TasksView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "setFilteredTasks()"
             landmarkType = "7">
          </BreakpointContent>

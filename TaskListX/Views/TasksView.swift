@@ -11,10 +11,12 @@ struct TasksView: View {
 	@Query() private var tasks: [Task]
 	
 	@State private var isCreateSheetShown = false
+	@State private var isConfirmDeleteShown = false
 	@State private var searchText = ""
 	@State private var needsRefresh = false
 	
 	@State private var filteredTasks = [Task]()
+	@State private var iSet: IndexSet? = nil
 	
 	private var listView: some View {
 		List {
@@ -33,18 +35,8 @@ struct TasksView: View {
 				}
 			}
 			.onDelete { indexSet in
-				for index in indexSet {
-					let task = filteredTasks[index]
-					task.modifiedAt = Date.now
-					task.project = nil
-					context.delete(task)
-				}
-				do {
-					try context.save()
-				} catch {
-					print(error)
-				}
-				setFilteredTasks()
+				iSet = indexSet
+				isConfirmDeleteShown.toggle()
 			}
 		}
 		.listStyle(.plain)
@@ -59,8 +51,8 @@ struct TasksView: View {
 						systemImage: "questionmark.app",
 						description: Text(
 							searchText.isEmpty == false
-								? "Can't find appropriate results."
-								: "There are no existing tasks."
+							? "Can't find appropriate results."
+							: "There are no existing tasks."
 						)
 					)
 				} else {
@@ -68,19 +60,48 @@ struct TasksView: View {
 				}
 			}.toolbar(content: {
 				ToolbarItem(placement: .topBarTrailing) {
-							 Button {
-								 isCreateSheetShown.toggle()
-							 } label: {
-								 Label("Add", systemImage: "plus")
-							 }
-						 }
-					 })
-					 .navigationTitle("Tasks")
-					 .navigationBarTitleDisplayMode(.inline)
+					Button {
+						isCreateSheetShown.toggle()
+					} label: {
+						Label("Add", systemImage: "plus")
+					}
+				}
+			})
+			.navigationTitle("Tasks")
+			.navigationBarTitleDisplayMode(.inline)
 		}
 		.searchable(text: $searchText)
 		.sheet(isPresented: $isCreateSheetShown) {
 			TaskFormView()
+		}
+		.confirmationDialog(
+			"Task becomes deleted",
+			isPresented: $isConfirmDeleteShown,
+			titleVisibility: .visible) {
+				Button("Continue") {
+					if let indexSet = iSet {
+						for index in indexSet {
+							let task = filteredTasks[index]
+							task.modifiedAt = Date.now
+							task.project = nil
+							context.delete(task)
+						}
+						
+						do {
+							try context.save()
+						} catch {
+							print(error)
+						}
+						setFilteredTasks()
+					}
+					isConfirmDeleteShown.toggle()
+				}
+				Button("Cancel") {
+					isConfirmDeleteShown.toggle()
+				}
+			}
+		message: {
+			Text("Are you sure?")
 		}
 		.onAppear {
 			setFilteredTasks()

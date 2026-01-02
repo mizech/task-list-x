@@ -7,11 +7,13 @@ struct ProjectsView: View {
 	@Query() private var projects: [Project]
 	
 	@State private var isCreateSheetShown = false
+	@State private var isConfirmDeleteShown = false
 	@State private var title = ""
 	@State private var description = ""
 	@State private var searchText = ""
 	
 	@State private var filteredProjects = [Project]()
+	@State private var iSet: IndexSet? = nil
 	
 	var body: some View {
 		NavigationStack {
@@ -42,22 +44,8 @@ struct ProjectsView: View {
 								}
 							}
 						}.onDelete { indexSet in
-							for index in indexSet {
-								let currProject = filteredProjects[index]
-								currProject.modifiedAt = Date.now
-								currProject.tasks.forEach { task in
-									task.project = nil
-								}
-					
-								context.delete(currProject)
-								filteredProjects.remove(at: index)
-								
-								do {
-									try context.save()
-								} catch {
-									print(error)
-								}
-							}
+							iSet = indexSet
+							isConfirmDeleteShown.toggle()
 						}
 					}
 					.listStyle(.plain)
@@ -113,6 +101,37 @@ struct ProjectsView: View {
 				isCreateSheetShown.toggle()
 			}
 		}
+		.confirmationDialog(
+			"Project becomes deleted",
+			isPresented: $isConfirmDeleteShown,
+			titleVisibility: .visible) {
+				Button("Continue") {
+					if let indexSet = iSet {
+						for index in indexSet {
+							let currProject = filteredProjects[index]
+							currProject.modifiedAt = Date.now
+							currProject.tasks.forEach { task in
+								task.project = nil
+							}
+				
+							context.delete(currProject)
+							filteredProjects.remove(at: index)
+							
+							do {
+								try context.save()
+							} catch {
+								print(error)
+							}
+						}
+					}
+					isConfirmDeleteShown.toggle()
+				}
+				Button("Cancel") {
+					isConfirmDeleteShown.toggle()
+				}
+			} message: {
+				Text("Are you sure?")
+			}
 	}
 	
 	func setFilteredProjects() {

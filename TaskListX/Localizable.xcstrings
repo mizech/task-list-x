@@ -11,7 +11,13 @@
         }
       }
     },
+    "Are you sure?" : {
+
+    },
     "Can't find appropriate results." : {
+
+    },
+    "Cancel" : {
 
     },
     "Close" : {
@@ -23,6 +29,9 @@
           }
         }
       }
+    },
+    "Continue" : {
+
     },
     "Created at: " : {
       "localizations" : {
@@ -166,6 +175,9 @@
         }
       }
     },
+    "Project becomes deleted" : {
+
+    },
     "Project: %@" : {
       "localizations" : {
         "de" : {
@@ -244,6 +256,9 @@
           }
         }
       }
+    },
+    "Task becomes deleted" : {
+
     },
     "Tasks" : {
       "localizations" : {
