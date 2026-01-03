@@ -12,13 +12,34 @@
       }
     },
     "Are you sure?" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sind Sie sicher?"
+          }
+        }
+      }
     },
     "Can't find appropriate results." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine entsprechenden Resultate gefunden."
+          }
+        }
+      }
     },
     "Cancel" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbrechen."
+          }
+        }
+      }
     },
     "Close" : {
       "localizations" : {
@@ -31,7 +52,14 @@
       }
     },
     "Continue" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fortfahren"
+          }
+        }
+      }
     },
     "Created at: " : {
       "localizations" : {
@@ -39,17 +67,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erstellt am:"
-          }
-        }
-      }
-    },
-    "Describe your project" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beschreiben Sie Ihr Projekt"
           }
         }
       }
@@ -65,7 +82,14 @@
       }
     },
     "Description (optional)" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beschreibung (optional)"
+          }
+        }
+      }
     },
     "Description: " : {
       "localizations" : {
@@ -97,28 +121,6 @@
         }
       }
     },
-    "Enter a title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geben Sie einen Titel ein."
-          }
-        }
-      }
-    },
-    "Hello, World!" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hallo, Welt!"
-          }
-        }
-      }
-    },
     "In work" : {
       "localizations" : {
         "de" : {
@@ -140,10 +142,24 @@
       }
     },
     "No projects available" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Projekte vorhanden"
+          }
+        }
+      }
     },
     "No tasks available" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Aufgaben vorhanden"
+          }
+        }
+      }
     },
     "Open" : {
       "localizations" : {
@@ -176,7 +192,14 @@
       }
     },
     "Project becomes deleted" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Projekt wird gelöscht"
+          }
+        }
+      }
     },
     "Project: %@" : {
       "localizations" : {
@@ -209,13 +232,34 @@
       }
     },
     "Settings" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen"
+          }
+        }
+      }
     },
     "Show only tasks allocated to" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur Aufgaben mit Projekt-Zuteilung:"
+          }
+        }
+      }
     },
     "Show tasks with status" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur Aufgaben mit Status:"
+          }
+        }
+      }
     },
     "Status" : {
       "localizations" : {
@@ -258,7 +302,14 @@
       }
     },
     "Task becomes deleted" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aufgabe wird gelöscht"
+          }
+        }
+      }
     },
     "Tasks" : {
       "localizations" : {
@@ -271,16 +322,44 @@
       }
     },
     "There are no existing projects." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Projekte vorhanden."
+          }
+        }
+      }
     },
     "There are no existing tasks." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Aufgaben vorhanden."
+          }
+        }
+      }
     },
     "Title" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Titel"
+          }
+        }
+      }
     },
     "Title (mandatory)" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Titel (Pflichtangabe)"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
